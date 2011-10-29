@@ -1,0 +1,2 @@
+
+add_library(GameBase Ship.cpp SHARED GameBoard.cpp Hello.cpp)
