@@ -2,6 +2,7 @@
 #include "math.h"
 #include <iostream>
 #include <iomanip>
+
 #include <Ship.h>
 
 using namespace std;
@@ -40,10 +41,38 @@ int GameBoard::getSize()
   return m_size;
 }
 
-bool GameBoard::validateMove(int x, int y)
+GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 {
-//   if(fieldAt(x,y) != 
-// TODO if the ship is hit decrease val in Ship class and check if the ship is Destroyed:D
+  Field& field = fieldAt(x,y);
+  bool isDestroyed;
+  if(field != nullField)
+  {
+    if(field.first > 0)
+    {
+      QHash<int,Ship>::iterator it = m_ships.find(field.first);
+      while (it != m_ships.end() && it.key() == field.first) {
+	it.value().hit();
+	isDestroyed = it.value().isDestroyed();
+	field.first = -1;
+	if(isDestroyed)
+	{
+	  m_ships.erase(it);
+	  cout<<"Ship count" << m_ships.size() <<endl;
+	  if(m_ships.isEmpty())
+	    return ALL_SHIPS_DESTROYED;
+	  else
+	    return SHIP_DESTROYED;
+	}	
+	else
+	  return SHIP_HIT;
+	++it;
+      }
+    }
+    else
+      return MISSED;
+  }
+  else
+    return INCORRECT_COORDINATES;
 }
 
 void GameBoard::print(ostream& stream)

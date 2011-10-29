@@ -28,6 +28,7 @@ namespace Base {
       Direction getDirection();
       virtual ~Ship();
       bool isDestroyed();
+      void hit();
       int getShipId();
       void setShipId(int Id);
     private:

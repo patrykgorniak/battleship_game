@@ -6,6 +6,5 @@ include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} "${PROJECT_SOURCE
 add_subdirectory(GameBase)
 
 set ( EXTRA_LIBS ${EXTRA_LIBS} GameBase)
-
 add_executable(ships main.cpp)
 target_link_libraries(ships ${QT_QTCORE_LIBRARY}  ${EXTRA_LIBS})

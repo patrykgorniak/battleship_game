@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include "Ship.h"
+
 namespace Base
 {
   typedef QPair<int,bool> Field;
@@ -23,10 +24,18 @@ namespace Base
     bool areNeighbourFieldsFree(int x,int y);
     static Field nullField;
   public:
+    enum MoveResult 
+    {
+      INCORRECT_COORDINATES,
+      MISSED,
+      SHIP_HIT,
+      SHIP_DESTROYED,
+      ALL_SHIPS_DESTROYED
+    };
     GameBoard(int size=10);
     virtual ~GameBoard();
     int getSize();
-    bool validateMove(int x,int y);
+    MoveResult validateMove(int x,int y);
     void print(std::ostream& stream);
     bool addShip(Ship newShip);
   };

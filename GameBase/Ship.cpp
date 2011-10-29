@@ -3,7 +3,7 @@
 
 using namespace Base;
 
-Ship::Ship(Ship::ShipType type, Ship::Direction direction):m_type(type),m_direction(direction),m_fieldLeft(type)
+Ship::Ship(Ship::ShipType type, Ship::Direction direction):m_type(type),m_direction(direction),m_fieldLeft(type+1)
 {
   m_position.first = 0;
   m_position.second = 0;
@@ -49,3 +49,10 @@ bool Ship::isDestroyed()
 {
   return m_fieldLeft > 0? false:true;
 }
+
+void Ship::hit()
+{
+  if(m_fieldLeft > 0)
+    --m_fieldLeft;
+}
+
