@@ -19,4 +19,10 @@ Item {
         model: 100
         delegate: RectangleUnit {}
     }
+
+    // functions
+
+    function addShip(ship) {
+
+    }
 }

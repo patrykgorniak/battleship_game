@@ -5,16 +5,22 @@ Rectangle {
     color:"transparent"
     width: childrenRect.width
     height: childrenRect.height
+    property ListView view
+
+    signal pickedUp(int m_x,int m_y);
 
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-
-        drag.target: ship
+        drag.target: undefined //ship
         drag.maximumX: mainWindow.width
         drag.maximumY: mainWindow.height
-
+        onPressed: {
+            console.log("Ship pressed: x: " + mouseX + "y: " + mouseY)
+            var obj = ship.view.mapFromItem(ship,mouseX,mouseY);
+            pickedUp(obj.x,obj.y)
+        }
     }
 
     Row {

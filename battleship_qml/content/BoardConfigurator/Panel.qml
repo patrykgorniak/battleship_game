@@ -23,12 +23,20 @@ Rectangle {
     ]
 
     ListView {
+        id: listView
         spacing: 30
         interactive: false
         anchors.centerIn: parent
         width: parent.width - 20
         height: childrenRect.height
-        model: ShipsModel {id: shipsModel}
-        delegate: Ship { id: ship }
+        model: ShipsModel { id: shipsModel }
+        delegate: Ship {
+            id: ship;
+            view: listView;
+            onPickedUp: {
+                var index = listView.indexAt(m_x,m_y)
+//                shipsModel.move(index, listView.count-1, 1)
+            }
+        }
     }
 }
