@@ -1,11 +1,13 @@
 #include "GameBasePlugin.h"
+#include "GameManager.h"
 #include <QtDeclarative/qdeclarative.h>
+
 
 void GameBasePlugin::registerTypes(const char *uri)
 {
     // @uri com.mycompany.qmlcomponents
-//    qmlRegisterType<>(uri, 1, 0, "MyItem");
+    qmlRegisterType<GameManager>(uri, 1, 0, "GameManager");
 }
 
-Q_EXPORT_PLUGIN2(GameBase, GameBasePlugin)
+Q_EXPORT_PLUGIN2(GameBasePlugin, GameBasePlugin)
 

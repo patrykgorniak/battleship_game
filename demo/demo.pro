@@ -3,5 +3,5 @@ TEMPLATE= app
 QT+= core
 
 SOURCES+=main.cpp
-INCLUDEPATH+= ../GameBase
-LIBS=-L ../GameBase -lGameBase
+INCLUDEPATH+= ../GameManager
+LIBS=-L ../GameManager -lGameManager

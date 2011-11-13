@@ -1,5 +1,5 @@
 TEMPLATE= subdirs
-SUBDIRS += GameBase demo
+SUBDIRS += GameManager demo
 CONFIG+=ordered
 
 OTHER_FILES += QML/*.qml \

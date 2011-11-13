@@ -1,8 +1,7 @@
 import QtQuick 1.1
+import GameManager 1.0
 
 import "content"
-
-
 
 Rectangle {
     id: mainWindow
@@ -21,4 +20,10 @@ Rectangle {
         id: configurator
 //        visible: false
     }
+
+    GameManager {
+        id: manager
+    }
+
+    Component.onCompleted: console.log(manager.testFunction());
 }
