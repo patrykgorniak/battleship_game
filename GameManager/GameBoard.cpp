@@ -5,6 +5,8 @@
 
 #include <Ship.h>
 #include <QTime>
+#include <QDebug>
+#include <ctime>
 
 using namespace std;
 using namespace Base;
@@ -13,8 +15,6 @@ int GameBoard::nullField = -100;
 
 GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(0)
 {
-    QTime midnight(0, 0, 0);
-    qsrand(midnight.secsTo(QTime::currentTime()));
   cout<<"Creating board of size = "<<size<< " fields"<<endl;
   for(int i=0;i<size;i++)
     for(int j=0;j<size;j++)
@@ -29,6 +29,9 @@ GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(
   m_shipTypeCount.insert(2,2);
   m_shipTypeCount.insert(3,1);
   m_shipTypeCount.insert(4,1);
+
+  for(int i=0;i<m_size*m_size;i++)
+      m_positions.append(i);
 
   generateBoard();
 }
@@ -72,7 +75,7 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
       while (it != m_ships.end() && it.key() == field) {
 	it.value().hit();
 	isDestroyed = it.value().isDestroyed();
-        field = -1;
+        field = -(int)SHIP_HIT;
 	if(isDestroyed)
 	{
 	  m_ships.erase(it);
@@ -88,14 +91,16 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 	}	
 	else
           result = SHIP_HIT;
-	++it;
+        break;
       }
     }
-    else
+    else if(field == 0)
     {
-      fieldAt(x,y) = -9;
+        fieldAt(x,y) = -(int)MISSED;
       result = MISSED;
     }
+    else
+        result = INCORRECT_COORDINATES;
   }
   else
     result = INCORRECT_COORDINATES;
@@ -271,10 +276,10 @@ void GameBoard::generateBoard()
             {
                 cout<<"Checking coords ";
                 Ship::ShipType type = (Ship::ShipType)(it.key());
-                Ship::Direction direction = (Ship::Direction)(qrand()%4);
+                Ship::Direction direction = (Ship::Direction)(random()%4);
                 Ship ship(type,direction);
-                int x = qrand() % m_size;
-                int y = qrand() % m_size;
+                int x = random() % m_size;
+                int y = random() % m_size;
                 cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
                 validCoords = addShip(ship);
@@ -292,7 +297,10 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
     if(moveValid)
     {
         if(result == ALL_SHIPS_DESTROYED)
+        {
             emit gameFinished();
+            qDebug()<<"Emiting signal game finished";
+        }
         fieldAt(x,y,true) = -(int)result;
         emit boardChanged();
     }
@@ -315,4 +323,12 @@ void GameBoard::savePlayerMoveResult(int field, MoveResult result)
     int x = field / m_size;
     int y = field % m_size;
     savePlayerMoveResult(x,y,result);
+}
+
+int GameBoard::getRandomShot()
+{
+    int rand = random()%(m_positions.size());
+    int val = m_positions.at(rand);
+    m_positions.removeAt(rand);
+    return val;
 }

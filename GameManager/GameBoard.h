@@ -41,13 +41,14 @@ namespace Base
             bool addShip(Ship newShip);
             bool validatePosition(Position p);
             MoveResult makeShot(int field);
-            int getRandomShot(){ return qrand()%(m_size*m_size);};
+            int getRandomShot();
     signals:
             void boardChanged();
             void gameFinished();
             void shipDestroyed();
 
         private:
+            QList<int> m_positions;
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
