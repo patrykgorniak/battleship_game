@@ -78,9 +78,13 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 	  m_ships.erase(it);
 	  cout<<"Ship count" << m_ships.size() <<endl;
 	  if(m_ships.isEmpty())
+
             result = ALL_SHIPS_DESTROYED;
 	  else
-            result = SHIP_DESTROYED;
+          {
+              emit shipDestroyed();
+            result = SHIP_HIT;
+          }
 	}	
 	else
           result = SHIP_HIT;

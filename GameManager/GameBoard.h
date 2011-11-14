@@ -46,6 +46,7 @@ namespace Base
     signals:
             void boardChanged();
             void gameFinished();
+            void shipDestroyed();
 
         private:
             QList<int> m_board;
