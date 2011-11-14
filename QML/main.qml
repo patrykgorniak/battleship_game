@@ -1,6 +1,5 @@
 import QtQuick 1.1
 import GameManager 1.0
-
 import "content"
 
 Rectangle {
@@ -9,6 +8,10 @@ Rectangle {
     height: 800
     property int gameBoardLevel: width > height ? width/2 : height/2
     color: "lightgray"
+
+    GameManager {
+        id: manager
+    }
 
     Game {
         id: game
@@ -21,9 +24,5 @@ Rectangle {
 //        visible: false
     }
 
-    GameManager {
-        id: manager
-    }
-
-    Component.onCompleted: console.log(manager.testFunction());
+    Component.onCompleted: console.log(manager.board);
 }

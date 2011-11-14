@@ -1,6 +1,7 @@
 #include "GameBasePlugin.h"
 #include "GameManager.h"
 #include <QtDeclarative/qdeclarative.h>
+#include <QPair>
 
 
 void GameBasePlugin::registerTypes(const char *uri)
