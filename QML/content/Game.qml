@@ -12,6 +12,7 @@ Item {
         anchors.left:  parent.left
         anchors.verticalCenter: parent.verticalCenter
         model: m_manager.board
+        interactionEnabled: false
     }
     GameBoard {
         width: _gameBoardLevel

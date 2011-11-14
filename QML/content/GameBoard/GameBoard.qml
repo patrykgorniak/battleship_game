@@ -4,8 +4,9 @@ Item {
     id:board
     width: 600
     height: width
-//    property GameManager _manager: null
+
     property alias model: grid.model
+    property bool interactionEnabled: true
 
     GridView {
         id:grid
@@ -18,12 +19,6 @@ Item {
         cellHeight: grid.height/10
         cellWidth: cellHeight
 
-        delegate: RectangleUnit {}
-    }
-
-    // functions
-
-    function addShip(ship) {
-
+        delegate: RectangleUnit { interactionEnabled: board.interactionEnabled }
     }
 }

@@ -17,7 +17,12 @@ QList<int> GameManager::readBoard()
     return m_board->readBoard();
 }
 
+void GameManager::shot(int fieldNb)
+{
+    qDebug()<<fieldNb;
+}
+
 GameManager::~GameManager()
 {
-
+    delete m_board;
 }

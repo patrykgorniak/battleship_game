@@ -2,7 +2,8 @@ import QtQuick 1.1
 
 Rectangle {
     id:element
-    property bool hit: false
+    property bool interactionEnabled: false
+    property int _index: index
 
     border.width: 1
     border.color: "black"
@@ -10,10 +11,14 @@ Rectangle {
     width: height
     color: takeColor(modelData)
 
+
     MouseArea {
         anchors.fill: parent
         id:mouseArea
-        hoverEnabled: true
+        hoverEnabled: interactionEnabled
+        enabled: interactionEnabled
+
+        onClicked: manager.shot(_index)
     }
 
     Text {
@@ -25,7 +30,7 @@ Rectangle {
     states: [
         State {
             name: "hovered"
-            when: mouseArea.containsMouse && !hit
+            when: mouseArea.containsMouse && interactionEnabled
             PropertyChanges {target: element; z: 5}
             PropertyChanges {target: element; border.color: "red"}
             PropertyChanges {target: element; border.width: 2}

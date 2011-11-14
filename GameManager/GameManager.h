@@ -4,6 +4,7 @@
 #include <QObject>
 #include <GameBase.h>
 #include <QtDeclarative/QDeclarativeItem>
+#include <QDebug>
 
 class GameManager : public QDeclarativeItem
 {
@@ -21,12 +22,12 @@ class GameManager : public QDeclarativeItem
     private:
         QList<int> readEnemyBoard();
         QList<int> readBoard();
-
         Base::GameBoard *m_board;
 
     signals:
         
     public slots:
+        void shot(int);
 };
 QML_DECLARE_TYPE(GameManager)
 
