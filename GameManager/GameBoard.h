@@ -38,6 +38,8 @@ namespace Base
             bool addShip(Ship newShip);
             bool validatePosition(Position p);
             void makeShot(int field);
+    signals:
+            void boardChanged();
 
         private:
             QList<int> m_board;
