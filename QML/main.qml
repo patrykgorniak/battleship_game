@@ -28,5 +28,15 @@ Rectangle {
     Component.onCompleted: {
         console.log(manager.board);
         console.log(manager.boardEnemy);
+
+        manager.shipDestroyed.connect(mainWindow.shipDestroyed)
+        manager.gameFinished.connect(mainWindow.gameFinished)
+    }
+
+    function shipDestroyed() {
+        console.log("destroyed")
+    }
+    function gameFinished() {
+        console.log("gameFinished")
     }
 }

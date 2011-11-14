@@ -23,9 +23,12 @@ class GameManager : public QDeclarativeItem
         QList<int> readEnemyBoard();
         QList<int> readBoard();
         Base::GameBoard *m_board;
+        Base::GameBoard *m_enemyBoard;
 
     signals:
         void dataChanged();
+        void shipDestroyed();
+        void gameFinished();
         
     public slots:
         void shot(int);

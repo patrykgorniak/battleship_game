@@ -42,17 +42,18 @@ Rectangle {
 
     function takeColor(value) {
         switch(value){
-        case -1: return "red";
+        case -2: return "red" //trafiony
+        case -1: return "yellow"; //pudlo
         case 0: return "white";
         case 1: return "#02ff04";
         case 2: return "orange";
-        case 3: return "yellow";
+        case 3: return "brown";
         case 4: return "lightblue";
         case 5: return "lightgreen";
         case 6: return "blue";
         case 7: return "darkgreen";
         case 8: return "purple";
         }
-        return "red"
+        return "black"
     }
 }
