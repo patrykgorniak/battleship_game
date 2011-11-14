@@ -20,6 +20,7 @@ QList<int> GameManager::readBoard()
 void GameManager::shot(int fieldNb)
 {
     qDebug()<<fieldNb;
+    m_board->makeShot(fieldNb);
 }
 
 GameManager::~GameManager()
