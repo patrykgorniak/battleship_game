@@ -12,8 +12,10 @@ namespace Base
   typedef QPair<int,bool> Field;
   class GameBoard
   {
-  private:
+      public:
     QList<Field> m_board;
+  private:
+//    QList<Field> m_board;
     QHash<int,Ship> m_ships;
     int m_size;
     Field& fieldAt(int x,int y);
@@ -41,6 +43,6 @@ namespace Base
   };
   
   std::ostream& operator<<(std::ostream& out,Base::GameBoard& board);
-};
+}
 
 #endif // GAMEBOARD_H
