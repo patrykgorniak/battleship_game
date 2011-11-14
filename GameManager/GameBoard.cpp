@@ -13,7 +13,6 @@ int GameBoard::nullField = -100;
 
 GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(0)
 {
-
     QTime midnight(0, 0, 0);
     qsrand(midnight.secsTo(QTime::currentTime()));
   cout<<"Creating board of size = "<<size<< " fields"<<endl;
@@ -286,6 +285,7 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
     if(moveValid)
     {
         fieldAt(x,y,true) = (int)result;
+        emit boardChanged();
     }
 }
 
