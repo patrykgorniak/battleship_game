@@ -16,7 +16,7 @@ Item {
         cellHeight: grid.height/10
         cellWidth: cellHeight
 
-        model: 100
+        model: manager.board
         delegate: RectangleUnit {}
     }
 

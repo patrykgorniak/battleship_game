@@ -16,12 +16,12 @@ Rectangle {
     Game {
         id: game
         _gameBoardLevel: parent.gameBoardLevel
-        visible: false
+//        visible: false
     }
 
     BoardConfigurator {
         id: configurator
-//        visible: false
+        visible: false
     }
 
     Component.onCompleted: console.log(manager.board);

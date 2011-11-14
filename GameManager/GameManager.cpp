@@ -9,12 +9,12 @@ GameManager::GameManager(QDeclarativeItem *parent) :
 
 QList<int> GameManager::readEnemyBoard()
 {
-
+    return m_board->readEnemyBoard();
 }
 
 QList<int> GameManager::readBoard()
 {
-
+    return m_board->readBoard();
 }
 
 GameManager::~GameManager()

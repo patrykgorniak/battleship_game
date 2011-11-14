@@ -8,14 +8,26 @@
 using namespace std;
 using namespace Base;
 
-Field GameBoard::nullField = qMakePair<int,int>(-1,-1);
+int GameBoard::nullField = -100;
 
-GameBoard::GameBoard(int size) : m_size(size)
+GameBoard::GameBoard(int size) : m_size(size),curr_id(0)
 {
   cout<<"Creating board of size = "<<size<< " fields"<<endl;
   for(int i=0;i<size;i++)
     for(int j=0;j<size;j++)
-      m_board.append(Field());
+      m_board.append(0);
+
+  for(int i=0;i<size;i++)
+    for(int j=0;j<size;j++)
+      m_boardEnemy.append(0);
+
+  m_shipTypeCount.insert(0,2);
+  m_shipTypeCount.insert(1,2);
+  m_shipTypeCount.insert(2,2);
+  m_shipTypeCount.insert(3,1);
+  m_shipTypeCount.insert(4,1);
+
+  generateBoard();
 }
 
 
@@ -25,12 +37,15 @@ GameBoard::~GameBoard()
   m_board.clear();
 }
 
-Field& GameBoard::fieldAt(int x,int y)
+int& GameBoard::fieldAt(int x,int y,bool board)
 {
   int size = sqrt(m_board.size());
   if( x >= 0 && x < size && y >= 0 && y < size)
   {
-    return m_board[x*size + y];
+      if(board)
+          return m_boardEnemy[x*size + y];
+      else
+          return m_board[x*size + y];
   }
   else
     return nullField;
@@ -43,17 +58,17 @@ int GameBoard::getSize()
 
 GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 {
-  Field& field = fieldAt(x,y);
+  int& field = fieldAt(x,y);
   bool isDestroyed;
   if(field != nullField)
   {
-    if(field.first > 0)
+    if(field > 0)
     {
-      QHash<int,Ship>::iterator it = m_ships.find(field.first);
-      while (it != m_ships.end() && it.key() == field.first) {
+      QHash<int,Ship>::iterator it = m_ships.find(field);
+      while (it != m_ships.end() && it.key() == field) {
 	it.value().hit();
 	isDestroyed = it.value().isDestroyed();
-	field.first = -1;
+        field = -1;
 	if(isDestroyed)
 	{
 	  m_ships.erase(it);
@@ -70,7 +85,7 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
     }
     else
     {
-      fieldAt(x,y).first = -9;
+      fieldAt(x,y) = -9;
       return MISSED;
     }
   }
@@ -85,7 +100,7 @@ void GameBoard::print(ostream& stream)
     {
       for(int j = 0; j < this->getSize();j++)
       {
-	stream << std::setw(3) << this->fieldAt(i,j).first<< " ";
+        stream << std::setw(3) << this->fieldAt(i,j)<< " ";
       }
 //       stream<<"\t";
 //       for(int j = 0; j < this->getSize();j++)
@@ -99,12 +114,16 @@ void GameBoard::print(ostream& stream)
 bool GameBoard::addShip(Ship newShip)
 {
   cout<< "AddShip func" <<endl;
-  int Id = m_ships.count() + 1;
-  newShip.setShipId(Id);
+  curr_id++;
+  newShip.setShipId(curr_id);
   bool ret = markShipOnBoard(newShip);
   if(ret)
   {
     m_ships.insert(m_ships.count()+1,newShip);
+  }
+  else
+  {
+      curr_id--;
   }
   return ret;
 }
@@ -138,8 +157,8 @@ bool GameBoard::markShipOnBoard(Ship newShip)
 	{
 	  for(int j=coords.first.second;j<=coords.second.second;j++)
 	  {
-	    cout <<"Drawing field " <<i<<" "<<j<<endl;
-	    fieldAt(i,j).first = newShip.getShipId();
+//	    cout <<"Drawing field " <<i<<" "<<j<<endl;
+            fieldAt(i,j) = newShip.getShipId();
 	  }
 	}
       }
@@ -201,7 +220,7 @@ bool GameBoard::areFieldsFree(QPair< Position, Position > coords)
   {
     for(int j=coords.first.second;j<=coords.second.second;j++)
     {
-      if(fieldAt(i,j).first != 0 || !areNeighbourFieldsFree(i,j)) isFree = false;
+      if(fieldAt(i,j) != 0 || !areNeighbourFieldsFree(i,j)) isFree = false;
     }
   }
   return isFree;
@@ -209,12 +228,12 @@ bool GameBoard::areFieldsFree(QPair< Position, Position > coords)
 
 bool GameBoard::areNeighbourFieldsFree(int x, int y)
 {
-  cout<<"Checking neighbour fields"<<endl;
+//  cout<<"Checking neighbour fields"<<endl;
   // Check above field
   for(int i=x-1;i<=x+1;i++)
     for(int j=y-1;j<=y+1;j++)
       if(fieldAt(i,j) != nullField)
-	if(fieldAt(i,j).first != 0) return false;
+        if(fieldAt(i,j) != 0) return false;
   return true;
 }
 
@@ -222,4 +241,31 @@ ostream& Base::operator<<(std::ostream& out,GameBoard& board)
 {
   board.print(out);
   return out;
+}
+
+void GameBoard::generateBoard()
+{
+    QHashIterator<int,int> it(m_shipTypeCount);
+
+    while(it.hasNext())
+    {
+        it.next();
+        bool validCoords = true;
+        cout<<it.key()+1<<" type count: "<<it.value()<<endl;
+        for(int i = 0; i < it.value(); i++)
+        {
+            do
+            {
+                cout<<"Checking coords ";
+                Ship::ShipType type = (Ship::ShipType)(it.key());
+                Ship::Direction direction = (Ship::Direction)(qrand()%4);
+                Ship ship(type,direction);
+                int x = qrand() % m_size;
+                int y = qrand() % m_size;
+                cout<<x<<" "<<y<<endl;
+                ship.setPosition(x,y);
+                validCoords = addShip(ship);
+            }while(!validCoords);
+        }
+    }
 }
