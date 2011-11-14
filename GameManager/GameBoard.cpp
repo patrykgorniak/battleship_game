@@ -287,6 +287,8 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
     bool moveValid = validatePosition(pos);
     if(moveValid)
     {
+        if(result == ALL_SHIPS_DESTROYED)
+            emit gameFinished();
         fieldAt(x,y,true) = -(int)result;
         emit boardChanged();
     }

@@ -45,6 +45,7 @@ namespace Base
             int getRandomShot(){ return qrand()%(m_size*m_size);};
     signals:
             void boardChanged();
+            void gameFinished();
 
         private:
             QList<int> m_board;
