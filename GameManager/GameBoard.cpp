@@ -8,7 +8,7 @@
 using namespace std;
 using namespace Base;
 
-Field GameBoard::nullField = qMakePair<int,bool>(-1,false);
+Field GameBoard::nullField = qMakePair<int,int>(-1,-1);
 
 GameBoard::GameBoard(int size) : m_size(size)
 {
@@ -69,7 +69,10 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
       }
     }
     else
+    {
+      fieldAt(x,y).first = -9;
       return MISSED;
+    }
   }
   else
     return INCORRECT_COORDINATES;
@@ -84,6 +87,11 @@ void GameBoard::print(ostream& stream)
       {
 	stream << std::setw(3) << this->fieldAt(i,j).first<< " ";
       }
+//       stream<<"\t";
+//       for(int j = 0; j < this->getSize();j++)
+//       {
+// 	stream << std::setw(3) << this->fieldAt(i,j).first<< " ";
+//       }
       stream << std::endl;
     }
 }

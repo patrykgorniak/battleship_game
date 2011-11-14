@@ -9,7 +9,7 @@
 
 namespace Base
 {
-  typedef QPair<int,bool> Field;
+  typedef QPair<int,int> Field;
   class GameBoard
   {
       public:
@@ -20,7 +20,6 @@ namespace Base
     int m_size;
     Field& fieldAt(int x,int y);
     bool markShipOnBoard(Base::Ship newShip);
-    bool validatePosition(Position p);
     bool sortCoords(QPair<Position,Position>& coords);
     bool areFieldsFree(QPair<Position,Position> coords);
     bool areNeighbourFieldsFree(int x,int y);
@@ -40,6 +39,7 @@ namespace Base
     MoveResult validateMove(int x,int y);
     void print(std::ostream& stream);
     bool addShip(Ship newShip);
+    bool validatePosition(Position p);
   };
   
   std::ostream& operator<<(std::ostream& out,Base::GameBoard& board);
