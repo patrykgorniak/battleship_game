@@ -4,6 +4,7 @@
 #include <iomanip>
 
 #include <Ship.h>
+#include <QTime>
 
 using namespace std;
 using namespace Base;
@@ -12,6 +13,9 @@ int GameBoard::nullField = -100;
 
 GameBoard::GameBoard(int size) : m_size(size),curr_id(0)
 {
+
+    QTime midnight(0, 0, 0);
+    qsrand(midnight.secsTo(QTime::currentTime()));
   cout<<"Creating board of size = "<<size<< " fields"<<endl;
   for(int i=0;i<size;i++)
     for(int j=0;j<size;j++)
@@ -60,6 +64,7 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 {
   int& field = fieldAt(x,y);
   bool isDestroyed;
+  MoveResult result;
   if(field != nullField)
   {
     if(field > 0)
@@ -74,23 +79,28 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 	  m_ships.erase(it);
 	  cout<<"Ship count" << m_ships.size() <<endl;
 	  if(m_ships.isEmpty())
-	    return ALL_SHIPS_DESTROYED;
+            result = ALL_SHIPS_DESTROYED;
 	  else
-	    return SHIP_DESTROYED;
+            result = SHIP_DESTROYED;
 	}	
 	else
-	  return SHIP_HIT;
+          result = SHIP_HIT;
 	++it;
       }
     }
     else
     {
       fieldAt(x,y) = -9;
-      return MISSED;
+      result = MISSED;
     }
   }
   else
-    return INCORRECT_COORDINATES;
+    result = INCORRECT_COORDINATES;
+  if(result!=INCORRECT_COORDINATES)
+  {
+
+  }
+  return result;
 }
 
 void GameBoard::print(ostream& stream)
@@ -102,11 +112,11 @@ void GameBoard::print(ostream& stream)
       {
         stream << std::setw(3) << this->fieldAt(i,j)<< " ";
       }
-//       stream<<"\t";
-//       for(int j = 0; j < this->getSize();j++)
-//       {
-// 	stream << std::setw(3) << this->fieldAt(i,j).first<< " ";
-//       }
+        stream<<"\t";
+        for(int j = 0; j < this->getSize();j++)
+        {
+        stream << std::setw(3) << this->fieldAt(i,j,true)<< " ";
+        }
       stream << std::endl;
     }
 }
@@ -267,5 +277,25 @@ void GameBoard::generateBoard()
                 validCoords = addShip(ship);
             }while(!validCoords);
         }
+    }
+}
+
+void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
+{
+    bool moveValid = validateMove(x,y);
+    if(moveValid)
+    {
+        fieldAt(x,y,true) = (int)result;
+    }
+}
+
+void GameBoard::makeShot(int field)
+{
+    int x = field / m_size;
+    int y = field % m_size;
+    MoveResult res = validateMove(x,y);
+    if(res != INCORRECT_COORDINATES)
+    {
+        cout<<"Shot is correct: "<<int(res)<<endl;
     }
 }
