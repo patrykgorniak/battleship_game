@@ -16,6 +16,11 @@ GameBoard::GameBoard(int size) : m_size(size)
   for(int i=0;i<size;i++)
     for(int j=0;j<size;j++)
       m_board.append(Field());
+  m_shipTypeCount.insert(1,2);
+  m_shipTypeCount.insert(2,2);
+  m_shipTypeCount.insert(3,2);
+  m_shipTypeCount.insert(4,1);
+  m_shipTypeCount.insert(5,1);
 }
 
 
@@ -222,4 +227,15 @@ ostream& Base::operator<<(std::ostream& out,GameBoard& board)
 {
   board.print(out);
   return out;
+}
+
+void GameBoard::generateBoard()
+{
+    QHashIterator<int,int> it(m_shipTypeCount);
+    while(it.hasNext())
+    {
+        bool validCoords = true;
+        int x = qrand() % m_size - 1;
+        int y = qrand() % m_size - 1;
+    }
 }

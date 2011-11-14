@@ -22,6 +22,8 @@ namespace Base
     bool areFieldsFree(QPair<Position,Position> coords);
     bool areNeighbourFieldsFree(int x,int y);
     static Field nullField;
+    QHash<int,int> m_shipTypeCount;
+    void generateBoard();
   public:
     enum MoveResult 
     {
