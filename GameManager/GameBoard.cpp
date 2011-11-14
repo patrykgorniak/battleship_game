@@ -281,10 +281,13 @@ void GameBoard::generateBoard()
 
 void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
 {
-    bool moveValid = validateMove(x,y);
+    Position pos;
+    pos.first = x;
+    pos.second = y;
+    bool moveValid = validatePosition(pos);
     if(moveValid)
     {
-        fieldAt(x,y,true) = (int)result;
+        fieldAt(x,y,true) = -(int)result;
         emit boardChanged();
     }
 }
