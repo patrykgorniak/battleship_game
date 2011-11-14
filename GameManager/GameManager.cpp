@@ -5,6 +5,7 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
     m_board = new Base::GameBoard(10);
+    connect(m_board,SIGNAL(boardChanged),this,dataChanged());
 }
 
 QList<int> GameManager::readEnemyBoard()
@@ -19,7 +20,7 @@ QList<int> GameManager::readBoard()
 
 void GameManager::shot(int fieldNb)
 {
-    qDebug()<<fieldNb;
+    qDebug()<<"I catched shot in plugin at field nb: "<<fieldNb;
     m_board->makeShot(fieldNb);
 }
 

@@ -12,8 +12,8 @@ class GameManager : public QDeclarativeItem
         Q_DISABLE_COPY(GameManager)
     public:
 
-        Q_PROPERTY(QList<int> boardEnemy READ readEnemyBoard)
-        Q_PROPERTY(QList<int> board READ readBoard)
+        Q_PROPERTY(QList<int> boardEnemy READ readEnemyBoard NOTIFY dataChanged)
+        Q_PROPERTY(QList<int> board READ readBoard NOTIFY dataChanged)
 
         explicit GameManager(QDeclarativeItem *parent = 0);
         ~GameManager();
@@ -25,6 +25,7 @@ class GameManager : public QDeclarativeItem
         Base::GameBoard *m_board;
 
     signals:
+        void dataChanged();
         
     public slots:
         void shot(int);
