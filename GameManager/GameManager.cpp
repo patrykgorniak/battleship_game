@@ -5,7 +5,8 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
     m_board = new Base::GameBoard(10);
-    connect(m_board,SIGNAL(boardChanged),this,dataChanged());
+
+    connect(this,SIGNAL(dataChanged()),m_board,SIGNAL(boardChanged()));
 }
 
 QList<int> GameManager::readEnemyBoard()

@@ -25,7 +25,6 @@ namespace Base
             Q_PROPERTY(QList<int> board READ readBoard)
             Q_PROPERTY(QList<int> enemyBoard READ readEnemyBoard)
 
-
             QList<int> readBoard() { return m_board; }
             QList<int> readEnemyBoard() { return m_boardEnemy; }
 
