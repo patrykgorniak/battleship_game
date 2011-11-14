@@ -4,7 +4,7 @@
 GameManager::GameManager(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
-    m_board = new Base::GameBoard(10);
+    m_board = new Base::GameBoard();
 }
 
 QList<int> GameManager::readEnemyBoard()

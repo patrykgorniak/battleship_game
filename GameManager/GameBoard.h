@@ -10,8 +10,9 @@
 namespace Base
 {
     typedef QPair<int,int> Field;
-    class GameBoard
+    class GameBoard: public QObject
     {
+        Q_OBJECT
         public:
             enum MoveResult
             {
@@ -29,7 +30,7 @@ namespace Base
             QList<int> readBoard() { return m_board; }
             QList<int> readEnemyBoard() { return m_boardEnemy; }
 
-            GameBoard(int size=10);
+            GameBoard(QObject* obj = 0,int size=10);
             virtual ~GameBoard();
             int getSize();
             MoveResult validateMove(int x,int y);
@@ -38,6 +39,7 @@ namespace Base
             bool addShip(Ship newShip);
             bool validatePosition(Position p);
             void makeShot(int field);
+            int getRandomShot(){ return qrand()%(m_size*m_size);};
     signals:
             void boardChanged();
 

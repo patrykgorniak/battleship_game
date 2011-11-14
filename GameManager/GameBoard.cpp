@@ -11,7 +11,7 @@ using namespace Base;
 
 int GameBoard::nullField = -100;
 
-GameBoard::GameBoard(int size) : m_size(size),curr_id(0)
+GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(0)
 {
 
     QTime midnight(0, 0, 0);
