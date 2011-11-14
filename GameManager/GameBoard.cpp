@@ -98,7 +98,7 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
     result = INCORRECT_COORDINATES;
   if(result!=INCORRECT_COORDINATES)
   {
-
+    emit boardChanged();
   }
   return result;
 }
