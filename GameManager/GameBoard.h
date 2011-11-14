@@ -41,7 +41,7 @@ namespace Base
             void print(std::ostream& stream);
             bool addShip(Ship newShip);
             bool validatePosition(Position p);
-            void makeShot(int field);
+            MoveResult makeShot(int field);
             int getRandomShot(){ return qrand()%(m_size*m_size);};
     signals:
             void boardChanged();
