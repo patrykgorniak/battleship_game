@@ -25,5 +25,8 @@ Rectangle {
         visible: false
     }
 
-    Component.onCompleted: console.log(manager.board);
+    Component.onCompleted: {
+        console.log(manager.board);
+        console.log(manager.boardEnemy);
+    }
 }

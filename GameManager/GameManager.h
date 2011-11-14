@@ -29,6 +29,7 @@ class GameManager : public QDeclarativeItem
         
     public slots:
         void shot(int);
+        void shotNotify();
 };
 QML_DECLARE_TYPE(GameManager)
 

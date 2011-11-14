@@ -4,9 +4,9 @@
 GameManager::GameManager(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
-    m_board = new Base::GameBoard(10);
+    m_board = new Base::GameBoard();
 
-    connect(this,SIGNAL(dataChanged()),m_board,SIGNAL(boardChanged()));
+    connect(m_board,SIGNAL(boardChanged()),this,SIGNAL(dataChanged()));
 }
 
 QList<int> GameManager::readEnemyBoard()
@@ -28,4 +28,9 @@ void GameManager::shot(int fieldNb)
 GameManager::~GameManager()
 {
     delete m_board;
+}
+
+void GameManager::shotNotify()
+{
+    qDebug()<<"SHOT";
 }

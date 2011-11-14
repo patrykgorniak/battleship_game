@@ -42,6 +42,7 @@ Rectangle {
 
     function takeColor(value) {
         switch(value){
+        case -1: return "red";
         case 0: return "white";
         case 1: return "#02ff04";
         case 2: return "orange";
@@ -52,5 +53,6 @@ Rectangle {
         case 7: return "darkgreen";
         case 8: return "purple";
         }
+        return "red"
     }
 }

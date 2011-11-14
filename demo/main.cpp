@@ -10,7 +10,7 @@ using namespace Base;
 int main(int argc, char** argv)
 {
   cout<<"Before game call"<<endl;
-  GameBoard game(10);
+  GameBoard game;
   game.savePlayerMoveResult(5,5,game.validateMove(5,5));
   cout<<game<<endl;
 //  Ship ship(Ship::AIRCRAFT_CARRIER,Ship::RIGHT);
