@@ -299,3 +299,10 @@ void GameBoard::makeShot(int field)
         cout<<"Shot is correct: "<<int(res)<<endl;
     }
 }
+
+void GameBoard::savePlayerMoveResult(int field, MoveResult result)
+{
+    int x = field / m_size;
+    int y = field % m_size;
+    savePlayerMoveResult(x,y,result);
+}

@@ -36,6 +36,7 @@ namespace Base
             int getSize();
             MoveResult validateMove(int x,int y);
             void savePlayerMoveResult(int x,int y,MoveResult result);
+            void savePlayerMoveResult(int field,MoveResult result);
             void print(std::ostream& stream);
             bool addShip(Ship newShip);
             bool validatePosition(Position p);
