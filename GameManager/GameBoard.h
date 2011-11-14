@@ -13,17 +13,19 @@ namespace Base
   class GameBoard
   {
   private:
-    QList<Field> m_board;
+    QList<int> m_board;
+    QList<int> m_board2;
     QHash<int,Ship> m_ships;
     int m_size;
-    Field& fieldAt(int x,int y);
+    int& fieldAt(int x,int y,bool board = false); // false value from m_board || true value from m_board2
     bool markShipOnBoard(Base::Ship newShip);
     bool sortCoords(QPair<Position,Position>& coords);
     bool areFieldsFree(QPair<Position,Position> coords);
     bool areNeighbourFieldsFree(int x,int y);
-    static Field nullField;
+    static int nullField;
     QHash<int,int> m_shipTypeCount;
     void generateBoard();
+    int curr_id;
   public:
     enum MoveResult 
     {

@@ -16,7 +16,7 @@ namespace Base {
 	AIRCRAFT_CARRIER
       };
       enum Direction {
-	DOWN,
+        DOWN = 0,
 	UP,
 	LEFT,
 	RIGHT
