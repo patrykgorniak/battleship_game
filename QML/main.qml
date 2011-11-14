@@ -16,6 +16,7 @@ Rectangle {
     Game {
         id: game
         _gameBoardLevel: parent.gameBoardLevel
+        m_manager: manager
 //        visible: false
     }
 

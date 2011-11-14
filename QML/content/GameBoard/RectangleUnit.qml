@@ -8,11 +8,18 @@ Rectangle {
     border.color: "black"
     height: grid.height/10
     width: height
+    color: takeColor(modelData)
 
     MouseArea {
         anchors.fill: parent
         id:mouseArea
         hoverEnabled: true
+    }
+
+    Text {
+        anchors.centerIn: parent
+        id: text
+        text: index
     }
 
     states: [
@@ -25,4 +32,19 @@ Rectangle {
             PropertyChanges {target: element; color: "lightblue"}
         }
     ]
+
+    function takeColor(value)
+    {
+        switch(value){
+        case 0: return "white";
+        case 1: return "#02ff04";
+        case 2: return "orange";
+        case 3: return "yellow";
+        case 4: return "lightblue";
+        case 5: return "lightgreen";
+        case 6: return "blue";
+        case 7: return "darkgreen";
+        case 8: return "purple";
+        }
+    }
 }

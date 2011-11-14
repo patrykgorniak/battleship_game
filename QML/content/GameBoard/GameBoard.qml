@@ -4,6 +4,8 @@ Item {
     id:board
     width: 600
     height: width
+//    property GameManager _manager: null
+    property alias model: grid.model
 
     GridView {
         id:grid
@@ -16,7 +18,6 @@ Item {
         cellHeight: grid.height/10
         cellWidth: cellHeight
 
-        model: manager.board
         delegate: RectangleUnit {}
     }
 
