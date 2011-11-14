@@ -24,10 +24,12 @@ namespace Base
             };
 
             Q_PROPERTY(QList<int> board READ readBoard)
+            Q_PROPERTY(QList<int> board READ readShotBoard)
             Q_PROPERTY(QList<int> enemyBoard READ readEnemyBoard)
 
             QList<int> readBoard() { return m_board; }
             QList<int> readEnemyBoard() { return m_boardEnemy; }
+            QList<int> readShotBoard() { return m_boardEnemy; }
 
             GameBoard(QObject* obj = 0,int size=10);
             virtual ~GameBoard();
