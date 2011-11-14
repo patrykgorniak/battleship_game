@@ -10,6 +10,8 @@ Rectangle {
     height: grid.height/10
     width: height
     color: takeColor(modelData)
+    opacity: 0.9
+
 
 
     MouseArea {
@@ -38,8 +40,7 @@ Rectangle {
         }
     ]
 
-    function takeColor(value)
-    {
+    function takeColor(value) {
         switch(value){
         case 0: return "white";
         case 1: return "#02ff04";
