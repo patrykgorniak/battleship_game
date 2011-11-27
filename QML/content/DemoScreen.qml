@@ -1,11 +1,13 @@
 import QtQuick 1.1
 import QtDesktop 0.1
+import "Utils"
 
 Rectangle {
     id: root
     anchors.fill: parent
     color: "transparent"
     property Game _game
+    property BoardConfigurator _bConfigurator
 
     Rectangle {
         anchors.fill: parent
@@ -31,7 +33,10 @@ Rectangle {
             text: "Ułóż planszę."
             width: 130
             height: 50
-            onClicked: root.visible = false;
+            onClicked: {
+                root.visible = false;
+                _bConfigurator.visible = true;
+            }
         }
     }
 }

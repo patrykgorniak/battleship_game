@@ -1,6 +1,7 @@
 import QtQuick 1.1
 import GameManager 1.0
 import "content"
+import "content/Utils"
 
 Rectangle {
     id: mainWindow
@@ -33,6 +34,13 @@ Rectangle {
     DemoScreen {
         id: demo
         _game: game
+        _bConfigurator: configurator
+//        visible: false
+    }
+
+    BusyIndicator {
+        id: indicator
+        on: false
     }
 
     function shipDestroyed() {

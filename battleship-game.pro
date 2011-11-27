@@ -6,4 +6,5 @@ OTHER_FILES += QML/*.qml \
     QML/content/*.qml \
     QML/content/BoardConfigurator/*.qml \
     QML/content/GameBoard/*.qml \
-    QML/content/Ships/*.qml
+    QML/content/Ships/*.qml \
+    QML/content/Utils/*.qml

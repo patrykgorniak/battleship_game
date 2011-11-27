@@ -10,7 +10,7 @@ Rectangle {
     height: grid.height/10
     width: height
     color: takeColor(modelData)
-    opacity: 0.9
+    opacity: 0.8
 
 
 
@@ -19,7 +19,6 @@ Rectangle {
         id:mouseArea
         hoverEnabled: interactionEnabled
         enabled: interactionEnabled
-
         onClicked: manager.shot(_index)
     }
 
