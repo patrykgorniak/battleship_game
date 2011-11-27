@@ -19,6 +19,11 @@ GameManager::GameManager(QDeclarativeItem *parent) :
 
 }
 
+void GameManager::generateBoard()
+{
+    m_board->generateBoard();
+}
+
 QList<int> GameManager::readEnemyBoard()
 {
     return m_board->readEnemyBoard();

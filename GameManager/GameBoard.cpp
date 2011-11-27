@@ -32,8 +32,6 @@ GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(
 
   for(int i=0;i<m_size*m_size;i++)
       m_positions.append(i);
-
-  generateBoard();
 }
 
 
@@ -286,6 +284,7 @@ void GameBoard::generateBoard()
             }while(!validCoords);
         }
     }
+    boardChanged();
 }
 
 void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)

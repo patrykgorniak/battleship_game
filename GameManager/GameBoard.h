@@ -42,6 +42,7 @@ namespace Base
             bool validatePosition(Position p);
             MoveResult makeShot(int field);
             int getRandomShot();
+            void generateBoard();
     signals:
             void boardChanged();
             void gameFinished();
@@ -60,7 +61,6 @@ namespace Base
             bool areNeighbourFieldsFree(int x,int y);
             static int nullField;
             QHash<int,int> m_shipTypeCount;
-            void generateBoard();
             int curr_id;
     };
 

@@ -7,7 +7,12 @@ Rectangle {
     width: 900
     height: 800
     property int gameBoardLevel: width > height ? width/2 : height/2
-    color: "lightgray"
+
+    Image {
+        id: img
+        source: "../images/ocean.jpg"
+        anchors.fill: parent
+    }
 
     GameManager {
         id: manager
@@ -17,7 +22,7 @@ Rectangle {
         id: game
         _gameBoardLevel: parent.gameBoardLevel
         m_manager: manager
-//        visible: false
+        visible: false
     }
 
     BoardConfigurator {
@@ -25,12 +30,9 @@ Rectangle {
         visible: false
     }
 
-    Component.onCompleted: {
-        console.log(manager.board);
-        console.log(manager.boardEnemy);
-
-        manager.shipDestroyed.connect(mainWindow.shipDestroyed)
-        manager.gameFinished.connect(mainWindow.gameFinished)
+    DemoScreen {
+        id: demo
+        _game: game
     }
 
     function shipDestroyed() {
@@ -38,5 +40,12 @@ Rectangle {
     }
     function gameFinished() {
         console.log("gameFinished")
+    }
+
+    Component.onCompleted: {
+        //console.log(manager.board);
+        //console.log(manager.boardEnemy);
+        manager.shipDestroyed.connect(mainWindow.shipDestroyed)
+        manager.gameFinished.connect(mainWindow.gameFinished)
     }
 }
