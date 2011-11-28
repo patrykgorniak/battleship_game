@@ -334,3 +334,21 @@ int GameBoard::getRandomShot()
     m_positions.removeAt(rand);
     return val;
 }
+
+int GameBoard::addShip(int sails)
+{
+    int id = 0;
+    do
+    {
+        cout<<"Checking coords ";
+        Ship::ShipType type = (Ship::ShipType)(sails - 1);
+        Ship::Direction direction = (Ship::Direction)(random()%4);
+        Ship ship(type,direction);
+        int x = random() % m_size;
+        int y = random() % m_size;
+        cout<<x<<" "<<y<<endl;
+        ship.setPosition(x,y);
+        id = addShip(ship);
+    }while(id == 0);
+    return id;
+}
