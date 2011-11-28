@@ -20,16 +20,19 @@ Rectangle {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: "grey"
-        opacity: 0.8
+        color: "black"
+        opacity: 0.2
         radius: panel.radius
     }
 
     Text {
         id: txt
-        anchors { left: parent.left; right: parent.right; margins: 10}
+        anchors { top: parent.top; left: parent.left; right: parent.right; margins: 10}
         text: "Wybierz jeden ze statków,\nnastępnie kliknij dodaj aby dodać\nna planszę."
-        font { pixelSize: 14 }
+        font { pixelSize: 14; bold: true}
+        color: "lightgray"
+        font.family: "Helvetica"
+        horizontalAlignment: Text.AlignHCenter
     }
 
     ListView {

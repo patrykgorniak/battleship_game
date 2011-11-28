@@ -21,6 +21,7 @@ Rectangle {
 
         onShow: {
             shipsPanel.shown = shown
+            shipsPanel.show(shown)
         }
     }
 }

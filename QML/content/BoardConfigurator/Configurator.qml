@@ -7,10 +7,15 @@ Item {
     anchors.fill: parent
     property GameManager __manager
 
+    signal closeAndStartGame();
+
     ShipsPanel {
         anchors.right: parent.right
         smooth: true
         z:1
+        onShow: {
+            configurator.closeAndStartGame()
+        }
     }
 
     GameBoard {

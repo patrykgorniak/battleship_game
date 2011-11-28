@@ -30,13 +30,17 @@ Rectangle {
         id: configurator
         visible: false
         _manager: manager
+
+        onCloseAndStartGame: {
+            configurator.visible = false;
+            game.visible = true
+        }
     }
 
     DemoScreen {
         id: demo
         _game: game
         _bConfigurator: configurator
-//        visible: false
     }
 
     BusyIndicator {
@@ -52,11 +56,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        //console.log(manager.board);
-        //console.log(manager.boardEnemy);
         manager.shipDestroyed.connect(mainWindow.shipDestroyed)
         manager.gameFinished.connect(mainWindow.gameFinished)
-
-//        manager.generateBoard();
     }
 }
