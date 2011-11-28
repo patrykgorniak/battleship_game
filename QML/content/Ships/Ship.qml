@@ -13,7 +13,7 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        drag.target: undefined //ship
+        drag.target: undefined // ship
         drag.maximumX: mainWindow.width
         drag.maximumY: mainWindow.height
         onPressed: {
@@ -24,6 +24,8 @@ Rectangle {
     }
 
     Row {
+        id: row
+        anchors.leftMargin: 5
         Repeater {
             model: boatSize
             delegate: Rectangle {
@@ -32,6 +34,14 @@ Rectangle {
                 border.width: 1
             }
         }
+    }
+    Text {
+        id: txt
+        text: " x " + quantity
+        anchors.left: row.right
+        anchors.leftMargin: 10
+        anchors.verticalCenter: row.verticalCenter
+        font.pixelSize: 18
     }
 }
 

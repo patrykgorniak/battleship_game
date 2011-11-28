@@ -16,7 +16,6 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     connect(m_board,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
     connect(m_board,SIGNAL(gameFinished()),this,SIGNAL(gameFinished()));
     connect(m_enemyBoard,SIGNAL(gameFinished()),this,SIGNAL(gameFinished()));
-
 }
 
 void GameManager::generateBoard()
@@ -60,4 +59,14 @@ GameManager::~GameManager()
 void GameManager::shotNotify()
 {
     qDebug()<<"SHOT";
+}
+
+int GameManager::addShip(int sails)
+{
+    return m_board->addShip(sails);
+}
+
+bool GameManager::removeShip(int shipID)
+{
+    return m_board->removeShipById(shipID);
 }

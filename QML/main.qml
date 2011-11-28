@@ -29,6 +29,7 @@ Rectangle {
     BoardConfigurator {
         id: configurator
         visible: false
+        _manager: manager
     }
 
     DemoScreen {
@@ -55,5 +56,7 @@ Rectangle {
         //console.log(manager.boardEnemy);
         manager.shipDestroyed.connect(mainWindow.shipDestroyed)
         manager.gameFinished.connect(mainWindow.gameFinished)
+
+//        manager.generateBoard();
     }
 }

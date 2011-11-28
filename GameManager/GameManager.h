@@ -14,12 +14,13 @@ class GameManager : public QDeclarativeItem
 
         Q_PROPERTY(QList<int> boardEnemy READ readEnemyBoard NOTIFY dataChanged)
         Q_PROPERTY(QList<int> board READ readBoard NOTIFY dataChanged)
-//        Q_PROPERTY(QBool randomBoard)
 
         explicit GameManager(QDeclarativeItem *parent = 0);
         ~GameManager();
 
         Q_INVOKABLE void generateBoard();
+        Q_INVOKABLE int addShip(int);
+        Q_INVOKABLE bool removeShip(int);
     private:
         QList<int> readEnemyBoard();
         QList<int> readBoard();

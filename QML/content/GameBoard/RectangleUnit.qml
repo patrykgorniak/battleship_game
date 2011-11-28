@@ -25,7 +25,10 @@ Rectangle {
     Text {
         anchors.centerIn: parent
         id: text
-        text: index
+        text: modelData > 0  ? modelData : ""
+        font.bold: true
+        font.pixelSize: 14
+        color: "white"
     }
 
     states: [

@@ -24,11 +24,11 @@ GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(
     for(int j=0;j<size;j++)
       m_boardEnemy.append(0);
 
-  m_shipTypeCount.insert(0,2);
-  m_shipTypeCount.insert(1,2);
+  m_shipTypeCount.insert(0,4);
+  m_shipTypeCount.insert(1,3);
   m_shipTypeCount.insert(2,2);
   m_shipTypeCount.insert(3,1);
-  m_shipTypeCount.insert(4,1);
+//  m_shipTypeCount.insert(4,1);
 
   for(int i=0;i<m_size*m_size;i++)
       m_positions.append(i);
@@ -153,6 +153,7 @@ bool GameBoard::markShipOnBoard(Ship newShip)
   {
     QPair<Position,Position> coords;
     coords.first = newShip.getPosition();
+
     switch(newShip.getDirection())
     {
       case Ship::UP:
@@ -168,6 +169,7 @@ bool GameBoard::markShipOnBoard(Ship newShip)
 	coords.second = qMakePair<int,int>(coords.first.first,coords.first.second + newShip.getType());
 	break;
     }
+
     if(validatePosition(coords.second))
     {
       if(sortCoords(coords) && areFieldsFree(coords))
@@ -283,6 +285,7 @@ void GameBoard::generateBoard()
                 int y = random() % m_size;
                 cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
+
                 validCoords = addShip(ship);
             }while(!validCoords);
         }
@@ -350,6 +353,7 @@ int GameBoard::addShip(int sails)
         ship.setPosition(x,y);
         id = addShip(ship);
     }while(id == 0);
+    boardChanged();
     return id;
 }
 
@@ -358,6 +362,7 @@ bool GameBoard::removeShipById(int id)
     Ship& ship = m_ships[id];
     Position pos = ship.getPosition();
     Ship::Direction dir = ship.getDirection();
+    int removed = m_ships.remove(id);
     if(removed > 0)
     {
         if(dir == Ship::UP || dir == Ship::DOWN)
@@ -374,6 +379,7 @@ bool GameBoard::removeShipById(int id)
                 if(fieldAt(i,pos.first) == id)fieldAt(i,pos.first) = 0;
             }
         }
+        boardChanged();
         return true;
     }
     else return false;

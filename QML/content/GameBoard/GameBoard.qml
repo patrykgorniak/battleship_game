@@ -18,6 +18,7 @@ Item {
 
         cellHeight: grid.height/10
         cellWidth: cellHeight
+        model: 100
 
         delegate: RectangleUnit { interactionEnabled: board.interactionEnabled }
     }
