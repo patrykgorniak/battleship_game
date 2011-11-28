@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import GameManager 1.0
+import QtDesktop 0.1
 import "content"
 import "content/Utils"
 

@@ -8,6 +8,7 @@ Rectangle {
     color: "transparent"
     radius: 10
     anchors { right: parent.right; left: parent.left; rightMargin: -20; }
+    property alias _listView: listView
 
     states: [
         State {
