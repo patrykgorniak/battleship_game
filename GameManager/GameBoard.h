@@ -40,7 +40,7 @@ namespace Base
             void print(std::ostream& stream);
             int addShip(Ship newShip);
             int addShip(int sails);
-            bool removeShipById(int id);
+            int removeShipById(int id);
             bool validatePosition(Position p);
             MoveResult makeShot(int field);
             int getRandomShot();

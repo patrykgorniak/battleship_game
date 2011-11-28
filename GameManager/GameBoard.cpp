@@ -358,7 +358,7 @@ int GameBoard::addShip(int sails)
     return id;
 }
 
-bool GameBoard::removeShipById(int id)
+int GameBoard::removeShipById(int id)
 {
     print(cout);
 //    const Ship ship = m_ships.value(id);
@@ -388,7 +388,9 @@ bool GameBoard::removeShipById(int id)
             }
         }
         boardChanged();
-        return true;
-        }
-    m_ships.remove(id);
+        return it.value().getType()+1;
+        m_ships.remove(id);
+    }
+    else
+        return 0;
 }
