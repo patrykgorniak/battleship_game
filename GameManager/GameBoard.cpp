@@ -127,7 +127,7 @@ void GameBoard::print(ostream& stream)
     }
 }
 
-bool GameBoard::addShip(Ship newShip)
+int GameBoard::addShip(Ship newShip)
 {
   cout<< "AddShip func" <<endl;
   curr_id++;
@@ -141,7 +141,10 @@ bool GameBoard::addShip(Ship newShip)
   {
       curr_id--;
   }
-  return ret;
+  if(ret == false)
+      return 0;
+  else
+      return newShip.getShipId();
 }
 
 bool GameBoard::markShipOnBoard(Ship newShip)

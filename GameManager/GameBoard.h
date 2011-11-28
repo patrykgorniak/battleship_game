@@ -38,7 +38,7 @@ namespace Base
             void savePlayerMoveResult(int x,int y,MoveResult result);
             void savePlayerMoveResult(int field,MoveResult result);
             void print(std::ostream& stream);
-            bool addShip(Ship newShip);
+            int addShip(Ship newShip);
             bool validatePosition(Position p);
             MoveResult makeShot(int field);
             int getRandomShot();
