@@ -352,3 +352,29 @@ int GameBoard::addShip(int sails)
     }while(id == 0);
     return id;
 }
+
+bool GameBoard::removeShipById(int id)
+{
+    Ship& ship = m_ships[id];
+    Position pos = ship.getPosition();
+    Ship::Direction dir = ship.getDirection();
+    if(removed > 0)
+    {
+        if(dir == Ship::UP || dir == Ship::DOWN)
+        {
+            for(int i=0;i<m_size;i++)
+            {
+                if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
+            }
+        }
+        else
+        {
+            for(int i=0;i<m_size;i++)
+            {
+                if(fieldAt(i,pos.first) == id)fieldAt(i,pos.first) = 0;
+            }
+        }
+        return true;
+    }
+    else return false;
+}
