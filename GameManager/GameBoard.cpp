@@ -354,33 +354,41 @@ int GameBoard::addShip(int sails)
         id = addShip(ship);
     }while(id == 0);
     boardChanged();
+    cout<<"Ship ID "<<id<<endl;
     return id;
 }
 
 bool GameBoard::removeShipById(int id)
 {
-    Ship& ship = m_ships[id];
-    Position pos = ship.getPosition();
-    Ship::Direction dir = ship.getDirection();
-    int removed = m_ships.remove(id);
-    if(removed > 0)
+    print(cout);
+//    const Ship ship = m_ships.value(id);
+    cout<<"Ship count "<<m_ships.count()<<endl;
+    QHash<int,Ship>::iterator it = m_ships.find(id);
+    cout << "Key "<<it.key();
+    if(it!=m_ships.end() && it.key() == id)
     {
+        Position pos = it.value().getPosition();
+        Ship::Direction dir = it.value().getDirection();
+        cout << "Ship position "<<pos.first<< " "<<pos.second<<endl;
         if(dir == Ship::UP || dir == Ship::DOWN)
         {
             for(int i=0;i<m_size;i++)
             {
-                if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
+                if(fieldAt(i,pos.second) == id)
+                {
+                    fieldAt(i,pos.second) = 0;
+                }
             }
         }
         else
         {
             for(int i=0;i<m_size;i++)
             {
-                if(fieldAt(i,pos.first) == id)fieldAt(i,pos.first) = 0;
+                if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
             }
         }
         boardChanged();
         return true;
-    }
-    else return false;
+        }
+    m_ships.remove(id);
 }
