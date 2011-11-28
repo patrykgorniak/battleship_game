@@ -3,6 +3,7 @@ import QtQuick 1.0
 Rectangle {
     id: shipsPanel
     width: 250
+    property alias __listView: panel._listView;
 
     property bool shown: true
     signal show(bool showed)
@@ -20,7 +21,7 @@ Rectangle {
         }
 
         onShow: {
-            shipsPanel.shown = shown
+            shipsPanel.show(shown)
         }
     }
 }
