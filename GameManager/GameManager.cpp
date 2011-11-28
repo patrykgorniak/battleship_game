@@ -10,7 +10,7 @@ GameManager::GameManager(QDeclarativeItem *parent) :
 
     m_enemyBoard = new Base::GameBoard();
     qDebug()<<"Enemy board: \n"<<m_enemyBoard->readBoard();
-
+    m_enemyBoard->generateBoard();
     connect(m_board,SIGNAL(boardChanged()),this,SIGNAL(dataChanged()));
     connect(m_enemyBoard,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
     connect(m_board,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
