@@ -419,3 +419,24 @@ bool GameBoard::moveShip(int id,int x,int y)
     }
     return true;
 }
+
+void GameBoard::readHistogram()
+{
+    QFile file("histogram.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+             QString line = in.readLine();
+        }
+}
+
+void GameBoard::saveHistogram()
+{
+    QFile file("histogram.txt");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return;
+
+    QTextStream out(&file);
+    out << "Linia testowa: " << 1 << "\n";
+
+}

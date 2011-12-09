@@ -3,6 +3,7 @@
 #include <QList>
 #include <QPair>
 #include <QHash>
+#include <QFile>
 #include <iostream>
 #include <iomanip>
 #include "Ship.h"
@@ -46,6 +47,10 @@ namespace Base
             int getRandomShot();
             void generateBoard();
             bool moveShip(int id,int x,int y);
+
+            void readHistogram();
+            void saveHistogram();
+
     signals:
             void boardChanged();
             void gameFinished();
