@@ -45,6 +45,7 @@ namespace Base
             MoveResult makeShot(int field);
             int getRandomShot();
             void generateBoard();
+            bool moveShip(int id,int x,int y);
     signals:
             void boardChanged();
             void gameFinished();

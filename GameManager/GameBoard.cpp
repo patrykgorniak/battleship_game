@@ -192,6 +192,7 @@ bool GameBoard::markShipOnBoard(Ship newShip)
     else return false;
   }
   else return false;
+  boardChanged();
   return true;
 }
 
@@ -393,4 +394,28 @@ int GameBoard::removeShipById(int id)
     }
     else
         return 0;
+}
+
+bool GameBoard::moveShip(int id,int x,int y)
+{
+    QHash<int,Ship>::iterator it = m_ships.find(id);
+    while (it != m_ships.end() && it.key() == id) {
+        Ship ship = it.value();
+        Position pos = ship.getPosition();
+        ship.setPosition(pos.first+x,pos.second +y);
+        removeShipById(id);
+        cout<<"Ship ID after deletion "<<ship.getShipId()<<endl;
+        if(!markShipOnBoard(ship))
+        {
+            ship.setPosition(pos.first,pos.second);
+            markShipOnBoard(ship);
+            m_ships.insert(id,ship);
+        }
+        else
+        {
+            m_ships.insert(id,ship);
+        }
+        it++;
+    }
+    return true;
 }

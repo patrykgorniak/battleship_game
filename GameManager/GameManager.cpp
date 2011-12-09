@@ -70,3 +70,8 @@ bool GameManager::removeShip(int shipID)
 {
     return m_board->removeShipById(shipID);
 }
+
+bool GameManager::moveShip(int id,int x,int y)
+{
+    return m_board->moveShip(id,x,y);
+}

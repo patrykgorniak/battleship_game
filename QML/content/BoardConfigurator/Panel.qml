@@ -141,6 +141,9 @@ Rectangle {
                 id: topIMGMouse
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    manager.moveShip(shipNB.text,-1,0);
+                }
             }
         }
 
@@ -158,6 +161,9 @@ Rectangle {
                 id: rightIMGMouse
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    manager.moveShip(shipNB.text,0,1);
+                }
             }
         }
 
@@ -175,6 +181,9 @@ Rectangle {
                 id: bottomIMGMouse
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    manager.moveShip(shipNB.text,1,0);
+                }
             }
         }
 
@@ -192,6 +201,9 @@ Rectangle {
                 id: leftIMGMouse
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    manager.moveShip(shipNB.text,0,-1);
+                }
             }
         }
     }
