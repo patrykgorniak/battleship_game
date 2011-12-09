@@ -61,6 +61,8 @@ namespace Base
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
+            QHash<int,int> histogram;
+
             int m_size;
             int& fieldAt(int x,int y,bool board = false); // false value from m_board || true value from m_board2
             bool markShipOnBoard(Base::Ship newShip);
