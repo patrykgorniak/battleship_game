@@ -63,6 +63,8 @@ namespace Base
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
+            QHash<int,int> histogram;
+
             int m_size;
             Position lastShot;
             bool isDirectionDiscovered;
