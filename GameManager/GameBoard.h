@@ -3,7 +3,6 @@
 #include <QList>
 #include <QPair>
 #include <QHash>
-#include <QFile>
 #include <iostream>
 #include <iomanip>
 #include "Ship.h"
@@ -48,8 +47,6 @@ namespace Base
             void generateBoard();
             bool moveShip(int id,int x,int y);
 
-            void readHistogram();
-            void saveHistogram();
             bool validateShipPosition(Ship,QPair<Position,Position> &coords);
             bool validateShipPosition(int,int,int);
             void removeSurroundingClearFields(Position p);
@@ -64,7 +61,7 @@ namespace Base
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
-            QHash<int,int> histogram;
+
 
             int m_size;
             Position lastShot;

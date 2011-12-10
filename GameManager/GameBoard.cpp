@@ -675,32 +675,3 @@ void GameBoard::removeSurroundingClearFields(Position p)
     }
     boardChanged();
 }
-
-void GameBoard::readHistogram()
-{
-    int counter = 0;
-    QFile file("histogram.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-             QString line = in.readLine();
-             histogram.insert(counter,line.toInt());
-             counter++;
-        }
-}
-
-void GameBoard::saveHistogram()
-{
-    QFile file("histogram.txt");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) return;
-
-    QTextStream out(&file);
-    QHashIterator<int, int> i(histogram);
-    while (i.hasNext()) {
-
-         i.next();
-         out << i.value() << endl;
-     }
-
-}
