@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include "Ship.h"
+#include "GameHistogram.h"
 
 namespace Base
 {
@@ -62,7 +63,6 @@ namespace Base
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
 
-
             int m_size;
             Position lastShot;
             bool isDirectionDiscovered;
@@ -79,6 +79,8 @@ namespace Base
             static int nullField;
             QHash<int,int> m_shipTypeCount;
             int curr_id;
+
+            GameHistogram *m_histogram;
     };
 
     std::ostream& operator<<(std::ostream& out,Base::GameBoard& board);
