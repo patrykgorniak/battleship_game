@@ -55,21 +55,22 @@ void GameHistogram::readHistogram()
 {
     int counter = 0;
     QFile file("histogram.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-             QString line = in.readLine();
-             histogram.insert(counter,line.toInt());
-             o_histogram.insert(counter,line.toInt());
-             counter++;
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        for(int i=0;i<100;i++)
+        {
+            histogram.insert(i,0);
         }
+        this->saveHistogram();
+     }
      else {
-            for(int i=0;i<100;i++)
-            {
-                histogram.insert(i,0);
+            QTextStream in(&file);
+            while (!in.atEnd()) {
+                 QString line = in.readLine();
+                 histogram.insert(counter,line.toInt());
+                 o_histogram.insert(counter,line.toInt());
+                 counter++;
             }
-            this->saveHistogram();
         }
 }
 
