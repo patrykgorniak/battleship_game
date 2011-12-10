@@ -91,8 +91,8 @@ Rectangle {
             height: 50
             onClicked: {
                 manager.removeShip(shipNB.text)
-//                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
-//                    listView.model.get(listView.currentIndex).quantity += 1
+                //                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
+                //                    listView.model.get(listView.currentIndex).quantity += 1
             }
         }
     }
@@ -106,7 +106,7 @@ Rectangle {
         anchors.right: parent.right
 
         Label {
-            text: manager.validateShipPosition(shipNB.text,-1,0)
+            text: "Numer statku: "
             anchors.verticalCenter: shipNB.verticalCenter
             font.pixelSize: 12
             font.bold: true
@@ -117,6 +117,10 @@ Rectangle {
             width: 100
             text: ""
             validator: IntValidator { }
+
+            onTextChanged: {
+                panel.checkMove()
+            }
         }
     }
 
@@ -137,7 +141,7 @@ Rectangle {
             anchors.top:  parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             opacity: topIMGMouse.containsMouse ? 1 : 0.5
-            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,-1,0)
+            //            enabled: manager.validateShipPosition(shipNB.text,-1,0)
 
             MouseArea {
                 id: topIMGMouse
@@ -145,6 +149,8 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,-1,0);
+                    panel.checkMove()
+                    //                    topIMG.enabled = manager.validateShipPosition(shipNB.text,-1,0);
                 }
             }
         }
@@ -158,7 +164,7 @@ Rectangle {
             anchors.left: topIMG.right
             anchors.top: topIMG.bottom
             opacity: rightIMGMouse.containsMouse ? 1 : 0.5
-            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,0,1)
+            //            enabled: manager.validateShipPosition(shipNB.text,0,1)
 
             MouseArea {
                 id: rightIMGMouse
@@ -166,6 +172,8 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,0,1);
+                    panel.checkMove()
+                    //                    rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1);
                 }
             }
         }
@@ -179,7 +187,7 @@ Rectangle {
             anchors.top: rightIMG.bottom
             anchors.right: topIMG.right
             opacity: bottomIMGMouse.containsMouse ? 1 : 0.5
-            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,1,0)
+            //            enabled: manager.validateShipPosition(shipNB.text,1,0)
 
             MouseArea {
                 id: bottomIMGMouse
@@ -187,6 +195,8 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,1,0);
+                    panel.checkMove()
+                    //                    bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0);
                 }
             }
         }
@@ -200,7 +210,7 @@ Rectangle {
             anchors.right: topIMG.left
             anchors.top: rightIMG.top
             opacity: leftIMGMouse.containsMouse ? 1 : 0.5
-            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,0,-1)
+            //            enabled: manager.validateShipPosition(shipNB.text,0,-1)
 
             MouseArea {
                 id: leftIMGMouse
@@ -208,8 +218,18 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,0,-1);
+                    panel.checkMove()
+                    //                    leftIMG.enabled = manager.validateShipPosition(shipNB.text,0,-1)
                 }
             }
         }
+    }
+
+    function checkMove()
+    {
+        topIMG.enabled = manager.validateShipPosition(shipNB.text,-1,0)
+        rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1)
+        bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0)
+        leftIMG.enabled =  manager.validateShipPosition(shipNB.text,0,-1)
     }
 }
