@@ -2,8 +2,13 @@
 #define GAMEHISTOGRAM_H
 
 #include <QHash>
+#include <QList>
 #include <QFile>
+#include <QMap>
 #include <QTextStream>
+#include <iostream>
+
+using namespace std;
 
 class GameHistogram {
 
@@ -14,10 +19,16 @@ class GameHistogram {
         void saveHistogram();
         int getHistogram(int pos);
         void setHistogram(int pos,int val);
+        void modifyHistogram(int pos);
+        void checkValues();
+        QList<int> generateSortedList();
 
     private:
 
+        QMap<int,int> hist_sort;
+
         QHash<int,int> histogram;
+        QHash<int,int> o_histogram;
 
 };
 
