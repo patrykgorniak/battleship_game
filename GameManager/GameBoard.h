@@ -60,6 +60,7 @@ namespace Base
 
         private:
             QList<int> m_positions;
+            QList<int> m_positionsGenerator;
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
