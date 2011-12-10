@@ -87,15 +87,15 @@ Rectangle {
             id: del
             text: "Usuń statek"
             width: panel.width / 2 - 25
-//            enabled: listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max
+            //            enabled: listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max
             height: 50
             onClicked: {
                 var ship = manager.removeShip(shipNB.text)
                 if(ship>0)
                     listView.model.get(ship-1).quantity += 1
                 shipNB.text = "";
-//                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
-//                    listView.model.get(listView.currentIndex).quantity += 1
+                //                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
+                //                    listView.model.get(listView.currentIndex).quantity += 1
             }
         }
     }
@@ -226,13 +226,61 @@ Rectangle {
                 }
             }
         }
+
+        Image {
+            id: leftRotateIMG
+            source: "../../../images/arrow.png"
+            rotation: 0
+            height: control.height / 5
+            width: height
+            anchors.right: bottomIMG.left
+            anchors.top: bottomIMG.top
+            anchors.topMargin: 10
+            anchors.rightMargin: 10
+            opacity: leftRotateIMGMouse.containsMouse && enabled ? 1 : 0.5
+
+            MouseArea {
+                id: leftRotateIMGMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+
+                }
+            }
+        }
+
+        Image {
+            id: rightRotateIMG
+            source: "../../../images/arrow.png"
+            rotation: 180
+            height: control.height / 5
+            width: height
+            anchors.left: bottomIMG.right
+            anchors.top: bottomIMG.top
+            anchors.topMargin: 10
+            anchors.leftMargin: 10
+            opacity: rightRotateIMGMouse.containsMouse && enabled ? 1 : 0.5
+
+            MouseArea {
+                id: rightRotateIMGMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+
+                }
+            }
+        }
     }
 
+
+    // TODO::PG:Add rotation logic
     function checkMove()
     {
         topIMG.enabled = manager.validateShipPosition(shipNB.text,-1,0)
         rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1)
         bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0)
         leftIMG.enabled =  manager.validateShipPosition(shipNB.text,0,-1)
+//        rightRotateIMG.enabled =
+//        leftRotateIMG.enabled =
     }
 }
