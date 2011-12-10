@@ -284,11 +284,19 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
         {
             // TODO: mark surrounding fields , its certain that ship is not there
             cout<< "SHIP DESTROYED"<<endl;
+            if(!isDirectionDiscovered && isShipHit)
+            {
+                if(lastShot.first == pos.first)
+                    orientation = true;
+                else
+                    orientation = false;
+            }
             m_NextHitList.clear();
             isShipHit = false;
             isShipDestroyed = false;
             isDirectionDiscovered = false;
             removeSurroundingClearFields(pos);
+            orientation = false;
         }
         else if(result == SHIP_HIT && !isShipHit)
         {
@@ -585,14 +593,16 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.second;i >= 0 ;i--)
         {
             Position temp = Position(p.first,i);
-            if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0 || !validatePosition(temp))
+            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+            if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0)
                 break;
-            coords.first = temp;
+            else coords.first = temp;
         }
         for(int i=p.second;i < m_size ;i++)
         {
             Position temp = Position(p.first,i);
-            if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0 || !validatePosition(temp))
+            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+            if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0)
                 break;
             coords.second = temp;
         }
@@ -603,6 +613,7 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.first;i >= 0 ;i--)
         {
             Position temp = Position(i,p.second);
+            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(i,p.second,true) == -1 || fieldAt(i,p.second,true) == 0 || !validatePosition(temp))
                 break;
             coords.first = temp;
@@ -610,15 +621,33 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.first;i < m_size ;i++)
         {
             Position temp = Position(i,p.second);
+            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(i,p.second,true)== -1 || fieldAt(i,p.second,true) == 0 || !validatePosition(temp))
                 break;
             coords.second = temp;
         }
         qDebug()<<"REMOVING COORDS "<<coords;
     }
-
+    sortCoords(coords);
     qDebug()<<"COORDS "<<coords.first.first-1<<" "<<coords.second.first+1<<endl;
     if(coords.first.first-1 < coords.second.first+1)qDebug()<<"OK";
+    for(int i=coords.first.first-1;i<=coords.second.first+1;i++)
+    {
+        for(int j=coords.first.second - 1;j<=coords.second.second+1;j++)
+        {
+            Position temp = Position(i,j);
+            if(validatePosition(temp))
+            {
+                if(fieldAt(i,j,true) == 0)
+                {
+                    qDebug()<<"["<<i<<","<<j<<"]";
+                    m_positions.removeOne(temp.first*m_size+temp.second);
+//                    fieldAt(i,j,true) = -1;
+                }
+            }
+        }
+    }
+    boardChanged();
 }
 
 void GameBoard::readHistogram()

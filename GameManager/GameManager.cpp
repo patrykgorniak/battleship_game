@@ -50,6 +50,7 @@ void GameManager::shot(int fieldNb)
     {
         qDebug()<<"Incorrect shot. Try again";
     }
+    m_board->print(std::cout);
     m_enemyBoard->print(std::cout);
 }
 
