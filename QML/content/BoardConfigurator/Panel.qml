@@ -140,8 +140,8 @@ Rectangle {
             width: height
             anchors.top:  parent.top
             anchors.horizontalCenter: parent.horizontalCenter
-            opacity: topIMGMouse.containsMouse ? 1 : 0.5
-            //            enabled: manager.validateShipPosition(shipNB.text,-1,0)
+            opacity: topIMGMouse.containsMouse && enabled ? 1 : 0.5
+            enabled: false
 
             MouseArea {
                 id: topIMGMouse
@@ -163,8 +163,8 @@ Rectangle {
             width: height
             anchors.left: topIMG.right
             anchors.top: topIMG.bottom
-            opacity: rightIMGMouse.containsMouse ? 1 : 0.5
-            //            enabled: manager.validateShipPosition(shipNB.text,0,1)
+            opacity: rightIMGMouse.containsMouse && enabled ? 1 : 0.5
+            enabled: false
 
             MouseArea {
                 id: rightIMGMouse
@@ -186,8 +186,8 @@ Rectangle {
             width: height
             anchors.top: rightIMG.bottom
             anchors.right: topIMG.right
-            opacity: bottomIMGMouse.containsMouse ? 1 : 0.5
-            //            enabled: manager.validateShipPosition(shipNB.text,1,0)
+            opacity: bottomIMGMouse.containsMouse && enabled ? 1 : 0.5
+            enabled: false
 
             MouseArea {
                 id: bottomIMGMouse
@@ -209,8 +209,8 @@ Rectangle {
             width: height
             anchors.right: topIMG.left
             anchors.top: rightIMG.top
-            opacity: leftIMGMouse.containsMouse ? 1 : 0.5
-            //            enabled: manager.validateShipPosition(shipNB.text,0,-1)
+            opacity: leftIMGMouse.containsMouse && enabled ? 1 : 0.5
+            enabled: false
 
             MouseArea {
                 id: leftIMGMouse
