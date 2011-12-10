@@ -487,7 +487,7 @@ int GameBoard::addShip(int sails)
     return id;
 }
 
-int GameBoard::removeShipById(int id)
+int GameBoard::removeShipById(int id,bool updateBoard)
 {
 //    print(cout);
 //    const Ship ship = m_ships.value(id);
@@ -516,7 +516,7 @@ int GameBoard::removeShipById(int id)
                 if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
             }
         }
-        boardChanged();
+        if(updateBoard)boardChanged();
         return it.value().getType()+1;
         m_ships.remove(id);
     }
@@ -531,7 +531,7 @@ bool GameBoard::moveShip(int id,int x,int y)
         Ship ship = it.value();
         Position pos = ship.getPosition();
         ship.setPosition(pos.first+x,pos.second +y);
-        removeShipById(id);
+        removeShipById(id,false);
 //        cout<<"Ship ID after deletion "<<ship.getShipId()<<endl;
         QPair<Position,Position> coords;
         if(validateShipPosition(ship, coords))
@@ -599,13 +599,12 @@ bool GameBoard::validateShipPosition(int id, int x, int y)
     while (it != m_ships.end() && it.key() == id) {
         Ship ship = it.value();
         Position pos = ship.getPosition();
-        removeShipById(id);
+        removeShipById(id,false);
         ship.setPosition(pos.first+x,pos.second+y);
         ret = validateShipPosition(ship,coords);
         ship.setPosition(pos.first,pos.second);
         markShipOnBoard(ship);
         m_ships.insert(id,ship);
-        boardChanged();
         it++;
     }
     return ret;
