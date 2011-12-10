@@ -674,3 +674,64 @@ void GameBoard::removeSurroundingClearFields(Position p)
     }
     boardChanged();
 }
+
+bool GameBoard::rotateShip(int id, bool direction)
+{
+    bool ret = false;
+    QHash<int,Ship>::iterator it = m_ships.find(id);
+    while (it != m_ships.end() && it.key() == id) {
+        Ship ship = it.value();
+        Position pos = ship.getPosition();
+        Ship::Direction dir = ship.getDirection();
+        int directionChanged = dir + (direction ? 1: -1);
+        if(directionChanged < 0) directionChanged += 4;
+        else if(directionChanged >= 4) directionChanged-=4;
+        removeShipById(id,false);
+        Position temp = Position(pos.first,pos.second);
+        ship.setDirection((Ship::Direction)directionChanged);
+        qDebug()<<"Ship direction "<<ship.getDirection();
+        QPair<Position,Position> coords;
+        ret = validateShipPosition(ship, coords);
+        if(ret)
+        {
+                markShipOnBoard(ship);
+                m_ships.insert(id,ship);
+                boardChanged();
+        }
+        else
+        {
+            ship.setPosition(pos.first,pos.second);
+            ship.setDirection(dir);
+            markShipOnBoard(ship);
+            m_ships.insert(id,ship);
+        }
+        it++;
+    }
+    return ret;
+}
+
+bool GameBoard::validateRotation(int id, bool direction)
+{
+    bool ret = false;
+    QHash<int,Ship>::iterator it = m_ships.find(id);
+    while (it != m_ships.end() && it.key() == id) {
+        Ship ship = it.value();
+        Position pos = ship.getPosition();
+        Ship::Direction dir = ship.getDirection();
+        int directionChanged = dir + (direction ? 1: -1);
+        if(directionChanged < 0) directionChanged += 4;
+        else if(directionChanged >= 4) directionChanged-=4;
+        removeShipById(id,false);
+        Position temp = Position(pos.first,pos.second);
+        ship.setDirection((Ship::Direction)directionChanged);
+        qDebug()<<"Ship direction "<<ship.getDirection();
+        QPair<Position,Position> coords;
+        ret = validateShipPosition(ship, coords);
+        ship.setPosition(pos.first,pos.second);
+        ship.setDirection(dir);
+        markShipOnBoard(ship);
+        m_ships.insert(id,ship);
+        it++;
+    }
+    return ret;
+}

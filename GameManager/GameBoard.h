@@ -46,6 +46,8 @@ namespace Base
             int getRandomShot();
             void generateBoard();
             bool moveShip(int id,int x,int y);
+            bool rotateShip(int id,bool direction);
+            bool validateRotation(int id,bool direction);
 
             bool validateShipPosition(Ship,QPair<Position,Position> &coords);
             bool validateShipPosition(int,int,int);

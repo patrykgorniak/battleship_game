@@ -244,7 +244,8 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-
+                    manager.rotateShip(shipNB.text,false)
+                    panel.checkMove()
                 }
             }
         }
@@ -266,7 +267,8 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-
+                    manager.rotateShip(shipNB.text,true)
+                    panel.checkMove()
                 }
             }
         }
@@ -280,7 +282,7 @@ Rectangle {
         rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1)
         bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0)
         leftIMG.enabled =  manager.validateShipPosition(shipNB.text,0,-1)
-//        rightRotateIMG.enabled =
-//        leftRotateIMG.enabled =
+        rightRotateIMG.enabled = manager.validateRotation(shipNB.text,true)
+        leftRotateIMG.enabled = manager.validateRotation(shipNB.text,false)
     }
 }

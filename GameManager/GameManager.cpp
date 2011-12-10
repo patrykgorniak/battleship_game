@@ -83,3 +83,13 @@ bool GameManager::validateShipPosition(int id, int x, int y)
 {
     return m_board->validateShipPosition(id,x,y);
 }
+
+bool GameManager::rotateShip(int id, bool direction)
+{
+    return m_board->rotateShip(id,direction);
+}
+
+bool GameManager::validateRotation(int id, bool direction)
+{
+    return m_board->validateRotation(id,direction);
+}

@@ -56,3 +56,7 @@ void Ship::hit()
     --m_fieldLeft;
 }
 
+void Ship::setDirection(Direction dir)
+{
+    m_direction = dir;
+}

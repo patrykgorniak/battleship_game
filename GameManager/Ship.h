@@ -17,8 +17,8 @@ namespace Base {
       };
       enum Direction {
         DOWN = 0,
+        LEFT,
 	UP,
-	LEFT,
 	RIGHT
       };
       Ship(ShipType type = PATROL_BOAT,Direction direction = UP);
@@ -26,6 +26,7 @@ namespace Base {
       Position& getPosition();
       ShipType getType();
       Direction getDirection();
+      void setDirection(Direction dir);
       virtual ~Ship();
       bool isDestroyed();
       void hit();
