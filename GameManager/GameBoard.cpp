@@ -242,6 +242,10 @@ ostream& Base::operator<<(std::ostream& out,GameBoard& board)
 
 void GameBoard::generateBoard()
 {
+
+    for(int i=0;i < m_size*m_size ;i++)
+        m_positionsGenerator.append(i);
+
     QHashIterator<int,int> it(m_shipTypeCount);
 
     while(it.hasNext())
@@ -257,12 +261,34 @@ void GameBoard::generateBoard()
                 Ship::ShipType type = (Ship::ShipType)(it.key());
                 Ship::Direction direction = (Ship::Direction)(random()%4);
                 Ship ship(type,direction);
-                int x = random() % m_size;
-                int y = random() % m_size;
+                int rand = random() % m_positionsGenerator.size();
+                int rand_val = m_positionsGenerator.takeAt(rand);
+                int x = rand_val / m_size;
+                int y = rand_val % m_size;
                 cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
 
                 validCoords = addShip(ship);
+                if(validCoords)
+                {
+                    // remove values from generator
+                    if(ship.getDirection() == Ship::DOWN || ship.getDirection() == Ship::UP)
+                    {
+                        for(int i=0;i<m_size;i++)
+                        {
+                            if(ship.getShipId() == fieldAt(i,ship.getPosition().second)) m_positions.removeOne(i*m_size + ship.getPosition().second);
+                        }
+                    }
+                    else
+                    {
+                        for(int i=0;i<m_size;i++)
+                        {
+                            if(ship.getShipId() == fieldAt(ship.getPosition().first,i)) m_positions.removeOne(ship.getPosition().first*m_size + i);
+                        }
+                    }
+                }
+                else
+                    m_positionsGenerator.insert(rand,rand_val);
             }while(!validCoords);
         }
     }
