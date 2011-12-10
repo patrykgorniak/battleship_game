@@ -13,7 +13,7 @@ using namespace Base;
 
 int GameBoard::nullField = -100;
 
-GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(0)
+GameBoard::GameBoard(QObject* obj,int size,bool histogramUsage) : QObject(obj),m_size(size),curr_id(0),m_useHistogram(histogramUsage)
 {
     initializeGame();
 }
@@ -61,8 +61,8 @@ GameBoard::MoveResult GameBoard::validateMove(int x, int y)
 	if(isDestroyed)
 	{
 	  m_ships.erase(it);
-	  cout<<"Ship count" << m_ships.size() <<endl;
-            qDebug()<<this->objectName().toLatin1()<<"- SHIP DESTROYED "<<isShipDestroyed<<endl;
+//	  cout<<"Ship count" << m_ships.size() <<endl;
+//            qDebug()<<this->objectName().toLatin1()<<"- SHIP DESTROYED "<<isShipDestroyed<<endl;
 	  if(m_ships.isEmpty())
 
             result = ALL_SHIPS_DESTROYED;
@@ -246,7 +246,7 @@ void GameBoard::generateBoard()
                 int rand_val = m_positionsGenerator.takeAt(rand);
                 int x = rand_val / m_size;
                 int y = rand_val % m_size;
-                cout<<x<<" "<<y<<endl;
+//                cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
 
                 validCoords = addShip(ship);
@@ -286,11 +286,18 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
     {
         fieldAt(x,y,true) = -(int)result;
         emit boardChanged();
-        qDebug()<<this->objectName().toLatin1()<<" - IS SHIP DESTROYED "<<isShipDestroyed<<endl;
+//        qDebug()<<this->objectName().toLatin1()<<" - IS SHIP DESTROYED "<<isShipDestroyed<<endl;
+
+        if((result == SHIP_HIT || result == SHIP_DESTROYED || result == ALL_SHIPS_DESTROYED) && m_useHistogram)
+        {
+            qDebug()<<"hit "<<-pos.first*m_size+pos.second;
+            m_histogram.modifyHistogram(x*m_size+y);
+        }
+
         if(result == SHIP_DESTROYED)
         {
             // TODO: mark surrounding fields , its certain that ship is not there
-            cout<< "SHIP DESTROYED"<<endl;
+//            cout<< "SHIP DESTROYED"<<endl;
             if(!isDirectionDiscovered && isShipHit)
             {
                 if(lastShot.first == pos.first)
@@ -316,14 +323,14 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
             for(int i=m_NextHitList.size()-1;i>=0;i--)
             {
                 Position temp = m_NextHitList.at(i);
-                cout<<temp.first<< " " << temp.second << endl;
+//                cout<<temp.first<< " " << temp.second << endl;
                 if(!validatePosition(m_NextHitList.at(i)) || fieldAt(temp.first,temp.second,true) < 0)
                 {
-                    cout<<"Invalid position deleting"<<endl;
+//                    cout<<"Invalid position deleting"<<endl;
                     m_NextHitList.removeAt(i);
                 }
             }
-            qDebug()<<m_NextHitList;
+//            qDebug()<<m_NextHitList;
         }
         else if(result == SHIP_HIT && isShipHit)
         {
@@ -341,7 +348,7 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
                     else if(validatePosition(temp) && fieldAt(temp.first,temp.second,true) < 0)
                     {
                         break;
-                        cout<<"Shot has been already carried out"<<endl;
+//                        cout<<"Shot has been already carried out"<<endl;
                     }
                 }
                 for(int i=m_coords.second.second + 1;i < m_size;i++)
@@ -352,10 +359,10 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
                     else if(validatePosition(temp) && fieldAt(temp.first,temp.second,true) < 0)
                     {
                         break;
-                        cout<<"Shot has been already carried out"<<endl;
+//                        cout<<"Shot has been already carried out"<<endl;
                     }
                 }
-                qDebug()<<m_NextHitList;
+//                qDebug()<<m_NextHitList;
                 orientation = true; //horizontal
             }
             else
@@ -368,7 +375,7 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
                     else if(validatePosition(temp) && fieldAt(temp.first,temp.second,true) < 0)
                     {
                         break;
-                        cout<<"Shot has been already carried out"<<endl;
+//                        cout<<"Shot has been already carried out"<<endl;
                     }
                 }
                 for(int i=m_coords.second.first + 1;i < m_size;i++)
@@ -379,11 +386,11 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
                     else if(validatePosition(temp) && fieldAt(temp.first,temp.second,true) < 0)
                     {
                         break;
-                        cout<<"Shot has been already carried out"<<endl;
+//                        cout<<"Shot has been already carried out"<<endl;
                     }
 
                 }
-                qDebug()<<m_NextHitList;
+//                qDebug()<<m_NextHitList;
                 orientation = false;
             }
 
@@ -404,7 +411,8 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
         else if(result == ALL_SHIPS_DESTROYED)
         {
             emit gameFinished();
-            qDebug()<<"Emiting signal game finished";
+            m_histogram.saveHistogram();
+//            qDebug()<<"Emiting signal game finished";
         }
     }
 }
@@ -416,7 +424,7 @@ GameBoard::MoveResult GameBoard::makeShot(int field)
     MoveResult res = validateMove(x,y);
     if(res != INCORRECT_COORDINATES)
     {
-        cout<<"Shot is correct: "<<int(res)<<endl;
+//        cout<<"Shot is correct: "<<int(res)<<endl;
     }
     return res;
 }
@@ -433,17 +441,15 @@ int GameBoard::getRandomShot()
     int val;
     if(isShipHit && m_NextHitList.size() > 0)
     {
-        cout<<"list shot"<<endl;
+//        cout<<"list shot"<<endl;
         Position pos = m_NextHitList.takeFirst();
         val = pos.first* m_size + pos.second;
         m_positions.removeOne(val);
     }
     else
     {
-        cout<<"random shot"<<endl;
-        int rand = random()%(m_positions.size());
-        val = m_positions.at(rand);
-        m_positions.removeAt(rand);
+//        cout<<"random shot"<<endl;
+        val = m_positions.takeLast();
     }
     return val;
 }
@@ -453,18 +459,18 @@ int GameBoard::addShip(int sails)
     int id = 0;
     do
     {
-        cout<<"Checking coords ";
+//        cout<<"Checking coords ";
         Ship::ShipType type = (Ship::ShipType)(sails - 1);
         Ship::Direction direction = (Ship::Direction)(random()%4);
         Ship ship(type,direction);
         int x = random() % m_size;
         int y = random() % m_size;
-        cout<<x<<" "<<y<<endl;
+//        cout<<x<<" "<<y<<endl;
         ship.setPosition(x,y);
         id = addShip(ship);
     }while(id == 0);
     boardChanged();
-    cout<<"Ship ID "<<id<<endl;
+//    cout<<"Ship ID "<<id<<endl;
     return id;
 }
 
@@ -563,7 +569,7 @@ bool GameBoard::validateShipPosition(Ship newShip,QPair<Position,Position> &coor
         }
         else
         {
-            cout << "Somethin went wrong" << endl;
+            cout << "Something went wrong" << endl;
             return false;
         }
       }
@@ -599,7 +605,7 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.second;i >= 0 ;i--)
         {
             Position temp = Position(p.first,i);
-            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+//            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0)
                 break;
             else coords.first = temp;
@@ -607,19 +613,19 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.second;i < m_size ;i++)
         {
             Position temp = Position(p.first,i);
-            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+//            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(p.first,i,true) == -1 || fieldAt(p.first,i,true) == 0)
                 break;
             coords.second = temp;
         }
-        qDebug()<<"REMOVING COORDS "<<coords;
+//        qDebug()<<"REMOVING COORDS "<<coords;
     }
     else
     {
         for(int i=p.first;i >= 0 ;i--)
         {
             Position temp = Position(i,p.second);
-            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+//            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(i,p.second,true) == -1 || fieldAt(i,p.second,true) == 0 || !validatePosition(temp))
                 break;
             coords.first = temp;
@@ -627,16 +633,16 @@ void GameBoard::removeSurroundingClearFields(Position p)
         for(int i=p.first;i < m_size ;i++)
         {
             Position temp = Position(i,p.second);
-            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
+//            qDebug()<<"Matching "<<temp.first<<""<<temp.second;
             if(fieldAt(i,p.second,true)== -1 || fieldAt(i,p.second,true) == 0 || !validatePosition(temp))
                 break;
             coords.second = temp;
         }
-        qDebug()<<"REMOVING COORDS "<<coords;
+//        qDebug()<<"REMOVING COORDS "<<coords;
     }
     sortCoords(coords);
-    qDebug()<<"COORDS "<<coords.first.first-1<<" "<<coords.second.first+1<<endl;
-    if(coords.first.first-1 < coords.second.first+1)qDebug()<<"OK";
+//    qDebug()<<"COORDS "<<coords.first.first-1<<" "<<coords.second.first+1<<endl;
+//    if(coords.first.first-1 < coords.second.first+1)qDebug()<<"OK";
     for(int i=coords.first.first-1;i<=coords.second.first+1;i++)
     {
         for(int j=coords.first.second - 1;j<=coords.second.second+1;j++)
@@ -646,7 +652,7 @@ void GameBoard::removeSurroundingClearFields(Position p)
             {
                 if(fieldAt(i,j,true) == 0)
                 {
-                    qDebug()<<"["<<i<<","<<j<<"]";
+//                    qDebug()<<"["<<i<<","<<j<<"]";
                     m_positions.removeOne(temp.first*m_size+temp.second);
 //                    fieldAt(i,j,true) = -1;
                 }
@@ -670,7 +676,7 @@ bool GameBoard::rotateShip(int id, bool direction)
         removeShipById(id,false);
         Position temp = Position(pos.first,pos.second);
         ship.setDirection((Ship::Direction)directionChanged);
-        qDebug()<<"Ship direction "<<ship.getDirection();
+//        qDebug()<<"Ship direction "<<ship.getDirection();
         QPair<Position,Position> coords;
         ret = validateShipPosition(ship, coords);
         if(ret)
@@ -705,7 +711,7 @@ bool GameBoard::validateRotation(int id, bool direction)
         removeShipById(id,false);
         Position temp = Position(pos.first,pos.second);
         ship.setDirection((Ship::Direction)directionChanged);
-        qDebug()<<"Ship direction "<<ship.getDirection();
+//        qDebug()<<"Ship direction "<<ship.getDirection();
         QPair<Position,Position> coords;
         ret = validateShipPosition(ship, coords);
         ship.setPosition(pos.first,pos.second);
@@ -729,10 +735,12 @@ void GameBoard::clearBoard()
     isShipHit = false;
     orientation = false;
     m_NextHitList.clear();
+    if(m_useHistogram)m_histogram.saveHistogram();
 }
 
 void GameBoard::initializeGame()
 {
+    if(m_useHistogram)m_histogram.readHistogram();
     for(int i=0;i<m_size;i++)
       for(int j=0;j<m_size;j++)
         m_board.append(0);
@@ -747,9 +755,17 @@ void GameBoard::initializeGame()
     m_shipTypeCount.insert(3,1);
   //  m_shipTypeCount.insert(4,1);
 
-    for(int i=0;i<m_size*m_size;i++)
-        m_positions.append(i);
+//    for(int i=0;i<m_size*m_size;i++)
+//        m_positions.append(i);
+
+    m_positions = m_histogram.generateSortedList();
+    qDebug()<<m_positions;
     isShipDestroyed = false;
     isShipHit =false;
     isDirectionDiscovered = false;
+}
+
+void GameBoard::useHistogram(bool use)
+{
+    m_useHistogram = use;
 }

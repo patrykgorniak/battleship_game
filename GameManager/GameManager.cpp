@@ -9,7 +9,8 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     m_board->setObjectName("board");
     qDebug()<<"Your board: \n"<<m_board->readBoard();
 
-    m_enemyBoard = new Base::GameBoard();
+    m_enemyBoard = new Base::GameBoard(NULL,10,true);
+    m_enemyBoard->useHistogram(true);
     m_enemyBoard->setObjectName("enemyBoard");
     qDebug()<<"Enemy board: \n"<<m_enemyBoard->readBoard();
     m_enemyBoard->generateBoard();
@@ -50,8 +51,8 @@ void GameManager::shot(int fieldNb)
     {
         qDebug()<<"Incorrect shot. Try again";
     }
-    m_board->print(std::cout);
-    m_enemyBoard->print(std::cout);
+//    m_board->print(std::cout);
+//    m_enemyBoard->print(std::cout);
 }
 
 GameManager::~GameManager()

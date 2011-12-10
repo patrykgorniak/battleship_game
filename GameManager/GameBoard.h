@@ -32,7 +32,7 @@ namespace Base
             QList<int> readEnemyBoard() { return m_boardEnemy; }
             QList<int> readShotBoard() { return m_boardEnemy; }
 
-            GameBoard(QObject* obj = 0,int size=10);
+            GameBoard(QObject* obj = 0,int size=10,bool histogramUsage = false);
             virtual ~GameBoard();
             int getSize();
             MoveResult validateMove(int x,int y);
@@ -55,6 +55,7 @@ namespace Base
             void removeSurroundingClearFields(Position p);
             void clearBoard();
             void initializeGame();
+            void useHistogram(bool);
     signals:
             void boardChanged();
             void gameFinished();
@@ -73,6 +74,8 @@ namespace Base
             bool isShipDestroyed;
             bool isShipHit;
             bool orientation;
+            int curr_id;
+            bool m_useHistogram;
             QPair<Position,Position> m_coords;
             QList<Position> m_NextHitList;
             int& fieldAt(int x,int y,bool board = false); // false value from m_board || true value from m_board2
@@ -82,9 +85,8 @@ namespace Base
             bool areNeighbourFieldsFree(int x,int y);
             static int nullField;
             QHash<int,int> m_shipTypeCount;
-            int curr_id;
 
-            GameHistogram *m_histogram;
+            GameHistogram m_histogram;
     };
 
     std::ostream& operator<<(std::ostream& out,Base::GameBoard& board);
