@@ -3,7 +3,7 @@
 
 GameHistogram::GameHistogram()
 {
-    for(int i=0;i<10;i++)
+    for(int i=0;i<100;i++)
     {
         histogram.insert(i,0);
     }
@@ -32,14 +32,21 @@ void GameHistogram::modifyHistogram(int pos)
 void GameHistogram::checkValues()
 {
     int new_v,prev_v=0;
-    for(int i=0;i<10;i++)
+    for(int i=0;i<100;i++)
     {
         new_v = histogram.value(i);
         prev_v = o_histogram.value(i);
 
         if(new_v<=prev_v)
         {
-            histogram.insert(i,new_v-1);
+            if(new_v-1>0)
+            {
+                histogram.insert(i,new_v-1);
+            }
+            else
+            {
+                histogram.insert(i,0);
+            }
         }
     }
 }
@@ -56,6 +63,13 @@ void GameHistogram::readHistogram()
              histogram.insert(counter,line.toInt());
              o_histogram.insert(counter,line.toInt());
              counter++;
+        }
+     else {
+            for(int i=0;i<100;i++)
+            {
+                histogram.insert(i,0);
+            }
+            this->saveHistogram();
         }
 }
 
