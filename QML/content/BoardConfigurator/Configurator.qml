@@ -19,12 +19,10 @@ Item {
             if(!showed){
                 if(configurator.checkIfAllShipsAdded())
                     configurator.closeAndStartGame()
-                else
-                {
+                else {
                     warning.visible = true
                     shipsPanel.shown = true
                 }
-
             }
         }
     }
@@ -37,7 +35,6 @@ Item {
         z:0
         interactionEnabled: false
     }
-
 
     Warning {
         id: warning

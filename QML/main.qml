@@ -59,5 +59,11 @@ Rectangle {
     Component.onCompleted: {
         manager.shipDestroyed.connect(mainWindow.shipDestroyed)
         manager.gameFinished.connect(mainWindow.gameFinished)
+
+        var now = new Date();
+        var seed = now.getMilliseconds
+        var num = Math.random(seed)
+
+        console.log("NUMMMM" + num);
     }
 }

@@ -69,7 +69,7 @@ int GameManager::addShip(int sails)
     return m_board->addShip(sails);
 }
 
-bool GameManager::removeShip(int shipID)
+int GameManager::removeShip(int shipID)
 {
     return m_board->removeShipById(shipID);
 }

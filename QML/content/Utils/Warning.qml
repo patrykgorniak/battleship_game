@@ -6,6 +6,7 @@ Rectangle {
     anchors.fill: parent
     color: "transparent"
     property alias text: txt.text
+    property alias btnText: close.text
     z: 100
 
     Rectangle {
@@ -27,7 +28,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: txt.bottom
         anchors.topMargin: 10
-        text: "Zamknij okno"
+        text: "Zamknij"
 
         onClicked: root.visible = false
     }

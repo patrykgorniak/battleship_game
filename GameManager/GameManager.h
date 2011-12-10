@@ -20,9 +20,10 @@ class GameManager : public QDeclarativeItem
 
         Q_INVOKABLE void generateBoard();
         Q_INVOKABLE int addShip(int);
-        Q_INVOKABLE bool removeShip(int);
+        Q_INVOKABLE int removeShip(int);
         Q_INVOKABLE bool moveShip(int,int,int);
         Q_INVOKABLE bool validateShipPosition(int,int,int);
+
     private:
         QList<int> readEnemyBoard();
         QList<int> readBoard();

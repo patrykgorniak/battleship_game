@@ -87,12 +87,15 @@ Rectangle {
             id: del
             text: "Usuń statek"
             width: panel.width / 2 - 25
-            enabled: listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max
+//            enabled: listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max
             height: 50
             onClicked: {
-                manager.removeShip(shipNB.text)
-                //                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
-                //                    listView.model.get(listView.currentIndex).quantity += 1
+                var ship = manager.removeShip(shipNB.text)
+                if(ship>0)
+                    listView.model.get(ship-1).quantity += 1
+                shipNB.text = "";
+//                if ( listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max)
+//                    listView.model.get(listView.currentIndex).quantity += 1
             }
         }
     }
