@@ -13,8 +13,8 @@ using namespace std;
 class GameHistogram {
 
     public:
-
         GameHistogram();
+        GameHistogram(QString);
         void readHistogram();
         void saveHistogram();
         int getHistogram(int pos);
@@ -29,6 +29,8 @@ class GameHistogram {
 
         QHash<int,int> histogram;
         QHash<int,int> o_histogram;
+
+        QString file_name;
 
 };
 

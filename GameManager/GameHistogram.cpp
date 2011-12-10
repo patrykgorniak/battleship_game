@@ -7,6 +7,16 @@ GameHistogram::GameHistogram()
     {
         histogram.insert(i,0);
     }
+    file_name="histogram.txt";
+}
+
+GameHistogram::GameHistogram(QString f_name)
+{
+    for(int i=0;i<100;i++)
+    {
+        histogram.insert(i,0);
+    }
+    file_name=f_name;
 }
 
 int GameHistogram::getHistogram(int pos)
@@ -54,7 +64,7 @@ void GameHistogram::checkValues()
 void GameHistogram::readHistogram()
 {
     int counter = 0;
-    QFile file("histogram.txt");
+    QFile file(file_name);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         for(int i=0;i<100;i++)
@@ -77,7 +87,7 @@ void GameHistogram::readHistogram()
 void GameHistogram::saveHistogram()
 {
     this->checkValues();
-    QFile file("histogram.txt");
+    QFile file(file_name);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) return;
 
     QTextStream out(&file);
