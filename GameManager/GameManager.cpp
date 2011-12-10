@@ -1,14 +1,16 @@
 #include "GameManager.h"
-
+#include <iostream>
 
 GameManager::GameManager(QDeclarativeItem *parent) :
     QDeclarativeItem(parent)
 {
     srand(time(NULL));
     m_board = new Base::GameBoard();
+    m_board->setObjectName("board");
     qDebug()<<"Your board: \n"<<m_board->readBoard();
 
     m_enemyBoard = new Base::GameBoard();
+    m_enemyBoard->setObjectName("enemyBoard");
     qDebug()<<"Enemy board: \n"<<m_enemyBoard->readBoard();
     m_enemyBoard->generateBoard();
     connect(m_board,SIGNAL(boardChanged()),this,SIGNAL(dataChanged()));
@@ -35,8 +37,8 @@ QList<int> GameManager::readBoard()
 
 void GameManager::shot(int fieldNb)
 {
-    qDebug()<<"I catched shot in plugin at field nb: "<<fieldNb;
-    qDebug()<<m_enemyBoard->readBoard();
+//    qDebug()<<"I catched shot in plugin at field nb: "<<fieldNb;
+//    qDebug()<<m_enemyBoard->readBoard();
     Base::GameBoard::MoveResult res = m_enemyBoard->makeShot(fieldNb);
     if(res!=Base::GameBoard::INCORRECT_COORDINATES)
     {
@@ -48,7 +50,7 @@ void GameManager::shot(int fieldNb)
     {
         qDebug()<<"Incorrect shot. Try again";
     }
-    qDebug()<<m_enemyBoard->readBoard();
+    m_enemyBoard->print(std::cout);
 }
 
 GameManager::~GameManager()
@@ -74,4 +76,9 @@ bool GameManager::removeShip(int shipID)
 bool GameManager::moveShip(int id,int x,int y)
 {
     return m_board->moveShip(id,x,y);
+}
+
+bool GameManager::validateShipPosition(int id, int x, int y)
+{
+    return m_board->validateShipPosition(id,x,y);
 }

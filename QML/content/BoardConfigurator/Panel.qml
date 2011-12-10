@@ -106,7 +106,7 @@ Rectangle {
         anchors.right: parent.right
 
         Label {
-            text: "Edytuj statek: "
+            text: manager.validateShipPosition(shipNB.text,-1,0)
             anchors.verticalCenter: shipNB.verticalCenter
             font.pixelSize: 12
             font.bold: true
@@ -116,6 +116,7 @@ Rectangle {
             id: shipNB
             width: 100
             text: ""
+            validator: IntValidator { }
         }
     }
 
@@ -136,6 +137,7 @@ Rectangle {
             anchors.top:  parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             opacity: topIMGMouse.containsMouse ? 1 : 0.5
+            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,-1,0)
 
             MouseArea {
                 id: topIMGMouse
@@ -156,6 +158,7 @@ Rectangle {
             anchors.left: topIMG.right
             anchors.top: topIMG.bottom
             opacity: rightIMGMouse.containsMouse ? 1 : 0.5
+            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,0,1)
 
             MouseArea {
                 id: rightIMGMouse
@@ -176,6 +179,7 @@ Rectangle {
             anchors.top: rightIMG.bottom
             anchors.right: topIMG.right
             opacity: bottomIMGMouse.containsMouse ? 1 : 0.5
+            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,1,0)
 
             MouseArea {
                 id: bottomIMGMouse
@@ -196,6 +200,7 @@ Rectangle {
             anchors.right: topIMG.left
             anchors.top: rightIMG.top
             opacity: leftIMGMouse.containsMouse ? 1 : 0.5
+            enabled: shipNB.acceptableInput && manager.validateShipPosition(shipNB.text,0,-1)
 
             MouseArea {
                 id: leftIMGMouse

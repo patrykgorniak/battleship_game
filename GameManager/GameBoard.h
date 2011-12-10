@@ -50,7 +50,9 @@ namespace Base
 
             void readHistogram();
             void saveHistogram();
-
+            bool validateShipPosition(Ship,QPair<Position,Position> &coords);
+            bool validateShipPosition(int,int,int);
+            void removeSurroundingClearFields(Position p);
     signals:
             void boardChanged();
             void gameFinished();
@@ -62,6 +64,13 @@ namespace Base
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
             int m_size;
+            Position lastShot;
+            bool isDirectionDiscovered;
+            bool isShipDestroyed;
+            bool isShipHit;
+            bool orientation;
+            QPair<Position,Position> m_coords;
+            QList<Position> m_NextHitList;
             int& fieldAt(int x,int y,bool board = false); // false value from m_board || true value from m_board2
             bool markShipOnBoard(Base::Ship newShip);
             bool sortCoords(QPair<Position,Position>& coords);
