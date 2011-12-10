@@ -7,6 +7,7 @@ Rectangle {
     color: "transparent"
     property alias text: txt.text
     property alias btnText: close.text
+    visible: false
     z: 100
 
     Rectangle {

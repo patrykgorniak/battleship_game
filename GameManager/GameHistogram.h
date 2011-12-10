@@ -9,6 +9,7 @@ class GameHistogram {
 
     public:
 
+        GameHistogram();
         void readHistogram();
         void saveHistogram();
         int getHistogram(int pos);

@@ -1,6 +1,14 @@
 #include "GameHistogram.h"
 
 
+GameHistogram::GameHistogram()
+{
+    for(int i=0;i<100;i++)
+    {
+        histogram.insert(i,0);
+    }
+}
+
 int GameHistogram::getHistogram(int pos)
 {
     return histogram.value(pos);
