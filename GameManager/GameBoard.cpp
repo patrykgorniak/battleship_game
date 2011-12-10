@@ -15,33 +15,14 @@ int GameBoard::nullField = -100;
 
 GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(0)
 {
-  cout<<"Creating board of size = "<<size<< " fields"<<endl;
-  for(int i=0;i<size;i++)
-    for(int j=0;j<size;j++)
-      m_board.append(0);
-
-  for(int i=0;i<size;i++)
-    for(int j=0;j<size;j++)
-      m_boardEnemy.append(0);
-
-  m_shipTypeCount.insert(0,4);
-  m_shipTypeCount.insert(1,3);
-  m_shipTypeCount.insert(2,2);
-  m_shipTypeCount.insert(3,1);
-//  m_shipTypeCount.insert(4,1);
-
-  for(int i=0;i<m_size*m_size;i++)
-      m_positions.append(i);
-  isShipDestroyed = false;
-  isShipHit =false;
-  isDirectionDiscovered = false;
+    initializeGame();
 }
 
 
 GameBoard::~GameBoard()
 {
   cout<<"Clearing game board" <<endl;
-  m_board.clear();
+  clearBoard();
 }
 
 int& GameBoard::fieldAt(int x,int y,bool board)
@@ -734,4 +715,41 @@ bool GameBoard::validateRotation(int id, bool direction)
         it++;
     }
     return ret;
+}
+
+void GameBoard::clearBoard()
+{
+    m_board.clear();
+    m_boardEnemy.clear();
+    m_ships.clear();
+    m_positions.clear();;
+    m_positionsGenerator.clear();
+    isDirectionDiscovered = false;
+    isShipDestroyed = false;
+    isShipHit = false;
+    orientation = false;
+    m_NextHitList.clear();
+}
+
+void GameBoard::initializeGame()
+{
+    for(int i=0;i<m_size;i++)
+      for(int j=0;j<m_size;j++)
+        m_board.append(0);
+
+    for(int i=0;i<m_size;i++)
+      for(int j=0;j<m_size;j++)
+        m_boardEnemy.append(0);
+
+    m_shipTypeCount.insert(0,4);
+    m_shipTypeCount.insert(1,3);
+    m_shipTypeCount.insert(2,2);
+    m_shipTypeCount.insert(3,1);
+  //  m_shipTypeCount.insert(4,1);
+
+    for(int i=0;i<m_size*m_size;i++)
+        m_positions.append(i);
+    isShipDestroyed = false;
+    isShipHit =false;
+    isDirectionDiscovered = false;
 }

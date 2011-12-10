@@ -53,6 +53,8 @@ namespace Base
             bool validateShipPosition(Ship,QPair<Position,Position> &coords);
             bool validateShipPosition(int,int,int);
             void removeSurroundingClearFields(Position p);
+            void clearBoard();
+            void initializeGame();
     signals:
             void boardChanged();
             void gameFinished();
