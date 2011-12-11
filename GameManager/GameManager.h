@@ -25,6 +25,7 @@ class GameManager : public QDeclarativeItem
         Q_INVOKABLE bool validateShipPosition(int,int,int);
         Q_INVOKABLE bool rotateShip(int,bool);
         Q_INVOKABLE bool validateRotation(int,bool);
+        Q_INVOKABLE void restartGame();
 
     private:
         QList<int> readEnemyBoard();

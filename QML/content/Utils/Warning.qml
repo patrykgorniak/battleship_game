@@ -7,6 +7,7 @@ Rectangle {
     color: "transparent"
     property alias text: txt.text
     property alias btnText: close.text
+    signal clicked
     visible: false
     z: 100
 
@@ -31,6 +32,6 @@ Rectangle {
         anchors.topMargin: 10
         text: "Zamknij"
 
-        onClicked: root.visible = false
+        onClicked: { root.visible = false; root.clicked() }
     }
 }

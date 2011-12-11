@@ -25,6 +25,13 @@ Rectangle {
         _gameBoardLevel: parent.gameBoardLevel
         m_manager: manager
         visible: false
+
+        onRestart: {
+            manager.restartGame()
+            configurator.visible = false;
+            game.visible = false
+            demo.visible = true
+        }
     }
 
     BoardConfigurator {
@@ -59,11 +66,5 @@ Rectangle {
     Component.onCompleted: {
         manager.shipDestroyed.connect(mainWindow.shipDestroyed)
         manager.gameFinished.connect(mainWindow.gameFinished)
-
-        var now = new Date();
-        var seed = now.getMilliseconds
-        var num = Math.random(seed)
-
-        console.log("NUMMMM" + num);
     }
 }

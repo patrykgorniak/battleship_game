@@ -31,6 +31,15 @@ QList<int> GameManager::readEnemyBoard()
     return m_board->readEnemyBoard();
 }
 
+void GameManager::restartGame()
+{
+    m_board->clearBoard();
+    m_board->initializeGame();
+
+    m_enemyBoard->clearBoard();
+    m_enemyBoard->initializeGame();
+}
+
 QList<int> GameManager::readBoard()
 {
     return m_board->readBoard();

@@ -9,6 +9,7 @@ Item {
     property int _gameBoardLevel
     property GameManager m_manager: null
     property bool active: true
+    signal restart
 
     GameBoard {
         width: _gameBoardLevel
@@ -30,6 +31,7 @@ Item {
         id: warning
         text: "Gra zakończona!"
         btnText: "Zamknij"
+        onClicked: root.restart();
     }
 
 
