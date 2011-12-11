@@ -439,6 +439,8 @@ void GameBoard::savePlayerMoveResult(int field, MoveResult result)
 int GameBoard::getRandomShot()
 {
     int val;
+    qDebug()<<"Next List size "<<m_NextHitList.size();
+    qDebug()<<"m_positions list size"<<m_positions.size();
     if(isShipHit && m_NextHitList.size() > 0)
     {
 //        cout<<"list shot"<<endl;
@@ -446,7 +448,7 @@ int GameBoard::getRandomShot()
         val = pos.first* m_size + pos.second;
         m_positions.removeOne(val);
     }
-    else
+    else if(m_positions.size() > 0)
     {
 //        cout<<"random shot"<<endl;
         val = m_positions.takeLast();
