@@ -67,8 +67,9 @@ Rectangle {
         case 7: return "darkgreen";
         case 8: return "purple";
         case 9: return "#03bb01";
+        case 10: return "#01ac41";
         }
-        return "transparent"
+        return "darkblue"
     }
 
     Component.onCompleted: element.color = takeColor(modelData)
