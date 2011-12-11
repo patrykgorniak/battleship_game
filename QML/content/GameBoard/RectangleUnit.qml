@@ -5,14 +5,18 @@ Rectangle {
     property bool interactionEnabled: false
     property int _index: index
     signal mark(int modelData)
-
     border.width: 1
     border.color: "black"
     height: grid.height/10
     width: height
-    color: takeColor(modelData)
     opacity: 0.8
 
+    Image {
+        id: icon
+        source: "../../../images/cross.png"
+        anchors.fill: parent
+        visible: modelData === -2 || modelData === -3
+    }
 
 
     MouseArea {
@@ -50,6 +54,7 @@ Rectangle {
 
     function takeColor(value) {
         switch(value){
+        case -3: return "red" //trafiony
         case -2: return "red" //trafiony
         case -1: return "yellow"; //pudlo
         case 0: return "white";
@@ -61,7 +66,10 @@ Rectangle {
         case 6: return "blue";
         case 7: return "darkgreen";
         case 8: return "purple";
+        case 9: return "#03bb01";
         }
-        return "black"
+        return "transparent"
     }
+
+    Component.onCompleted: element.color = takeColor(modelData)
 }
