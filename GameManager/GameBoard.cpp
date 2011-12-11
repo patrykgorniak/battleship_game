@@ -737,6 +737,7 @@ void GameBoard::clearBoard()
     isShipHit = false;
     orientation = false;
     m_NextHitList.clear();
+    curr_id = 0;
     if(m_useHistogram)m_histogram.saveHistogram();
 }
 
@@ -755,7 +756,7 @@ void GameBoard::initializeGame()
     m_shipTypeCount.insert(1,3);
     m_shipTypeCount.insert(2,2);
     m_shipTypeCount.insert(3,1);
-  //  m_shipTypeCount.insert(4,1);
+//    m_shipTypeCount.insert(4,1);
 
 //    for(int i=0;i<m_size*m_size;i++)
 //        m_positions.append(i);
