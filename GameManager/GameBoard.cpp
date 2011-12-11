@@ -761,7 +761,8 @@ void GameBoard::initializeGame()
 //        m_positions.append(i);
 
     m_positions = m_histogram.generateSortedList();
-    qDebug()<<m_positions;
+    qDebug()<<"LIST SIZE "<<m_positions.size();
+    qDebug()<<"<<<<SHOT LIST>>>>"<<endl<<m_positions<<endl<<"<<<<SHOT LIST END>>>>";
     isShipDestroyed = false;
     isShipHit =false;
     isDirectionDiscovered = false;
