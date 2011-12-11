@@ -4,6 +4,7 @@ Item {
     id:board
     width: 600
     height: width
+    signal mark(int modelData)
 
     property alias model: grid.model
     property bool interactionEnabled: true
@@ -20,6 +21,6 @@ Item {
         cellWidth: cellHeight
         model: 100
 
-        delegate: RectangleUnit { interactionEnabled: board.interactionEnabled }
+        delegate: RectangleUnit { interactionEnabled: board.interactionEnabled; onMark: board.mark(modelData) }
     }
 }

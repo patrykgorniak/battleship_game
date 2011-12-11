@@ -4,6 +4,7 @@ Rectangle {
     id: shipsPanel
     width: 250
     property alias __listView: panel._listView;
+    property alias __shipNB: panel._shipNB
 
     property bool shown: true
     signal show(bool showed)

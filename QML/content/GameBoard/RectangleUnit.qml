@@ -4,6 +4,7 @@ Rectangle {
     id:element
     property bool interactionEnabled: false
     property int _index: index
+    signal mark(int modelData)
 
     border.width: 1
     border.color: "black"
@@ -18,8 +19,13 @@ Rectangle {
         anchors.fill: parent
         id:mouseArea
         hoverEnabled: interactionEnabled
-        enabled: interactionEnabled
-        onClicked: manager.shot(_index)
+        enabled: true //interactionEnabled
+        onClicked: {
+            if(interactionEnabled)
+                manager.shot(_index)
+            else
+                element.mark(modelData);
+        }
     }
 
     Text {

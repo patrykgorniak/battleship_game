@@ -34,6 +34,7 @@ Item {
         model: __manager.board
         z:0
         interactionEnabled: false
+        onMark: { shipsPanel.__shipNB = modelData }
     }
 
     Warning {

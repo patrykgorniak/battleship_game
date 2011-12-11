@@ -9,6 +9,7 @@ Rectangle {
     radius: 10
     anchors { right: parent.right; left: parent.left; rightMargin: -20; }
     property alias _listView: listView
+    property int _shipNB
 
     states: [
         State {
@@ -118,7 +119,7 @@ Rectangle {
         TextField {
             id: shipNB
             width: 100
-            text: ""
+            text: _shipNB==0 ? "" : _shipNB
             validator: IntValidator { }
 
             onTextChanged: {
