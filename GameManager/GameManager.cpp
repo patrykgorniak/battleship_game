@@ -38,6 +38,7 @@ void GameManager::restartGame()
 
     m_enemyBoard->clearBoard();
     m_enemyBoard->initializeGame();
+    m_enemyBoard->generateBoard();
 }
 
 QList<int> GameManager::readBoard()

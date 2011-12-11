@@ -31,6 +31,7 @@ Rectangle {
             configurator.visible = false;
             game.visible = false
             demo.visible = true
+            game.active = true
         }
     }
 
