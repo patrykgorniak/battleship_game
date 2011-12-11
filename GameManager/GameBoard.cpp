@@ -257,14 +257,14 @@ void GameBoard::generateBoard()
                     {
                         for(int i=0;i<m_size;i++)
                         {
-                            if(ship.getShipId() == fieldAt(i,ship.getPosition().second)) m_positions.removeOne(i*m_size + ship.getPosition().second);
+                            if(ship.getShipId() == fieldAt(i,ship.getPosition().second)) m_positionsGenerator.removeOne(i*m_size + ship.getPosition().second);
                         }
                     }
                     else
                     {
                         for(int i=0;i<m_size;i++)
                         {
-                            if(ship.getShipId() == fieldAt(ship.getPosition().first,i)) m_positions.removeOne(ship.getPosition().first*m_size + i);
+                            if(ship.getShipId() == fieldAt(ship.getPosition().first,i)) m_positionsGenerator.removeOne(ship.getPosition().first*m_size + i);
                         }
                     }
                 }
@@ -761,7 +761,8 @@ void GameBoard::initializeGame()
 //        m_positions.append(i);
 
     m_positions = m_histogram.generateSortedList();
-    qDebug()<<m_positions;
+    qDebug()<<"LIST SIZE "<<m_positions.size();
+    qDebug()<<"<<<<SHOT LIST>>>>"<<endl<<m_positions<<endl<<"<<<<SHOT LIST END>>>>";
     isShipDestroyed = false;
     isShipHit =false;
     isDirectionDiscovered = false;
