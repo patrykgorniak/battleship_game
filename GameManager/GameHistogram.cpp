@@ -81,7 +81,7 @@ void GameHistogram::readHistogram()
     QFile file(file_name);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        for(int i=0;i<100;i++)
+        for(int i=0;i<board_size;i++)
         {
             histogram.insert(i,0);
         }
@@ -96,6 +96,7 @@ void GameHistogram::readHistogram()
                  counter++;
             }
         }
+     file.close();
 }
 
 void GameHistogram::saveHistogram()
@@ -112,6 +113,7 @@ void GameHistogram::saveHistogram()
          out << i.value() << endl;
      }
     this->clearHistogram();
+    file.close();
 
 }
 
@@ -123,7 +125,6 @@ QList<int> GameHistogram::generateSortedList()
     while (i.hasNext()) {
 
          i.next();
-         i.value();
          hist_sort.insertMulti(i.value(),i.key());
     }
 
