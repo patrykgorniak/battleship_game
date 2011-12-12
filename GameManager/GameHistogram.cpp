@@ -36,7 +36,7 @@ void GameHistogram::modifyHistogram(int pos)
     if(val>=15) {
          histogram.insert(pos,(15));
     }
-    histogram.insert(pos,(val+1));
+    histogram.insert(pos,(val+3));
 }
 
 void GameHistogram::checkValues()

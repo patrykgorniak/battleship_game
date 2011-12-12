@@ -158,7 +158,7 @@ bool GameBoard::sortCoords(QPair< Position, Position >& coords)
   {
 //    cout<< " X is the same" <<endl;
     Position temp = coords.first;
-    cout << coords.second.first << " "<<coords.second.second<<endl;
+//    cout << coords.second.first << " "<<coords.second.second<<endl;
     if(temp.second > coords.second.second)
     {
       coords.first = coords.second;
@@ -198,7 +198,7 @@ bool GameBoard::areFieldsFree(QPair< Position, Position > coords)
   {
     for(int j=coords.first.second;j<=coords.second.second;j++)
     {
-      if(fieldAt(i,j) != 0 || !areNeighbourFieldsFree(i,j)) isFree = false;
+      if(fieldAt(i,j) != 0 || !areNeighbourFieldsFree(i,j)) { isFree = false; break;}
     }
   }
   return isFree;
@@ -229,17 +229,19 @@ void GameBoard::generateBoard()
 
     QHashIterator<int,int> it(m_shipTypeCount);
 
-    while(it.hasNext())
+    QList<int> keys = m_shipTypeCount.keys();
+
+    for(int i = keys.size() - 1;i >=0 ;i--)
     {
-        it.next();
         bool validCoords = true;
-        cout<<it.key()+1<<" type count: "<<it.value()<<endl;
-        for(int i = 0; i < it.value(); i++)
+        int value = m_shipTypeCount.take(i);
+        cout<<"Ship type "<<i+1<<" type count: "<<value<<endl;
+        for(int i = 0; i < value; i++)
         {
             do
             {
                 cout<<"Checking coords ";
-                Ship::ShipType type = (Ship::ShipType)(it.key());
+                Ship::ShipType type = (Ship::ShipType)(i);
                 Ship::Direction direction = (Ship::Direction)(random()%4);
                 Ship ship(type,direction);
                 int rand = random() % m_positionsGenerator.size();
@@ -248,28 +250,42 @@ void GameBoard::generateBoard()
                 int y = rand_val % m_size;
 //                cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
-
-                validCoords = addShip(ship);
-                if(validCoords)
+                qDebug()<<"Entering direction loop. LEFT fields "<<m_positionsGenerator.size();
+                for(int i=0;i<4;i++)
                 {
-                    // remove values from generator
-                    if(ship.getDirection() == Ship::DOWN || ship.getDirection() == Ship::UP)
+                    ship.setDirection((Ship::Direction)((int)direction+i >= 4 ? (direction+i)-4 : direction+i ));
+                    qDebug()<<"Ship direction "<<ship.getDirection();
+                    validCoords = addShip(ship);
+                    if(validCoords)
                     {
-                        for(int i=0;i<m_size;i++)
+                        // remove values from generator
+                        if(ship.getDirection() == Ship::DOWN || ship.getDirection() == Ship::UP)
                         {
-                            if(ship.getShipId() == fieldAt(i,ship.getPosition().second)) m_positionsGenerator.removeOne(i*m_size + ship.getPosition().second);
+                            for(int i=0;i<m_size;i++)
+                            {
+                                if(ship.getShipId() == fieldAt(i,ship.getPosition().second))
+                                {
+//                                    qDebug()<<"Removing "<<i<< " "<<ship.
+                                    m_positionsGenerator.removeOne(i*m_size + ship.getPosition().second);
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
-                        for(int i=0;i<m_size;i++)
+                        else
                         {
-                            if(ship.getShipId() == fieldAt(ship.getPosition().first,i)) m_positionsGenerator.removeOne(ship.getPosition().first*m_size + i);
+                            for(int i=0;i<m_size;i++)
+                            {
+                                if(ship.getShipId() == fieldAt(ship.getPosition().first,i))
+                                {
+                                    m_positionsGenerator.removeOne(ship.getPosition().first*m_size + i);
+                                }
+                            }
                         }
+                        break;
                     }
                 }
-                else
-                    m_positionsGenerator.insert(rand,rand_val);
+                qDebug()<<"Out of direction loop";
+                if(!validCoords)
+                    m_positionsGenerator.append(rand);
             }while(!validCoords);
         }
     }
@@ -565,13 +581,14 @@ bool GameBoard::validateShipPosition(Ship newShip,QPair<Position,Position> &coor
 //      cout <<"---Drawing field " <<coords.second.first<<" "<<coords.second.second<<endl;
       if(validatePosition(coords.second))
       {
-        if(sortCoords(coords) && areFieldsFree(coords))
+        sortCoords(coords);
+        if(areFieldsFree(coords))
         {
             return true;
         }
         else
         {
-            cout << "Something went wrong" << endl;
+            cout << "Fields are not free" << endl;
             return false;
         }
       }
@@ -752,10 +769,10 @@ void GameBoard::initializeGame()
       for(int j=0;j<m_size;j++)
         m_boardEnemy.append(0);
 
-    m_shipTypeCount.insert(0,4);
-    m_shipTypeCount.insert(1,3);
-    m_shipTypeCount.insert(2,2);
     m_shipTypeCount.insert(3,1);
+    m_shipTypeCount.insert(2,2);
+    m_shipTypeCount.insert(1,3);
+    m_shipTypeCount.insert(0,4);
 //    m_shipTypeCount.insert(4,1);
 
 //    for(int i=0;i<m_size*m_size;i++)
