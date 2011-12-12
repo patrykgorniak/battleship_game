@@ -223,7 +223,7 @@ ostream& Base::operator<<(std::ostream& out,GameBoard& board)
 
 void GameBoard::generateBoard()
 {
-
+    qDebug()<<"GENERATE BOARD FUNC "<<m_positionsGenerator.size();
     for(int i=0;i < m_size*m_size ;i++)
         m_positionsGenerator.append(i);
 
@@ -307,7 +307,7 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
         if((result == SHIP_HIT || result == SHIP_DESTROYED || result == ALL_SHIPS_DESTROYED) && m_useHistogram)
         {
             qDebug()<<"hit "<<-pos.first*m_size+pos.second;
-            m_histogram.modifyHistogram(x*m_size+y);
+            if(m_useHistogram)m_histogram.modifyHistogram(x*m_size+y);
         }
 
         if(result == SHIP_DESTROYED)
@@ -427,7 +427,6 @@ void GameBoard::savePlayerMoveResult(int x, int y, MoveResult result)
         else if(result == ALL_SHIPS_DESTROYED)
         {
             emit gameFinished();
-            m_histogram.saveHistogram();
 //            qDebug()<<"Emiting signal game finished";
         }
     }
@@ -778,7 +777,7 @@ void GameBoard::initializeGame()
 //    for(int i=0;i<m_size*m_size;i++)
 //        m_positions.append(i);
 
-    m_positions = m_histogram.generateSortedList();
+    if(m_useHistogram)m_positions = m_histogram.generateSortedList();
     qDebug()<<"LIST SIZE "<<m_positions.size();
     qDebug()<<"<<<<SHOT LIST>>>>"<<endl<<m_positions<<endl<<"<<<<SHOT LIST END>>>>";
     isShipDestroyed = false;
