@@ -3,20 +3,34 @@
 
 GameHistogram::GameHistogram()
 {
-    for(int i=0;i<100;i++)
+    board_size=100;
+    for(int i=0;i<board_size;i++)
     {
         histogram.insert(i,0);
     }
     file_name="histogram.txt";
 }
 
-GameHistogram::GameHistogram(QString f_name)
+GameHistogram::GameHistogram(QString f_name, int b_size)
 {
-    for(int i=0;i<100;i++)
+    board_size = b_size;
+    for(int i=0;i<board_size;i++)
     {
         histogram.insert(i,0);
     }
     file_name=f_name;
+}
+
+GameHistogram::~GameHistogram()
+{
+    this->clearHistogram();
+}
+
+void GameHistogram::clearHistogram()
+{
+    histogram.clear();
+    o_histogram.clear();
+    hist_sort.clear();
 }
 
 int GameHistogram::getHistogram(int pos)
@@ -97,6 +111,7 @@ void GameHistogram::saveHistogram()
          i.next();
          out << i.value() << endl;
      }
+    this->clearHistogram();
 
 }
 
