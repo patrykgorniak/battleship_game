@@ -3,7 +3,7 @@
 
 using namespace Base;
 
-Ship::Ship(Ship::ShipType type, Ship::Direction direction):m_type(type),m_direction(direction),m_fieldLeft(type+1)
+Ship::Ship(ShipType type, Direction direction):m_type(type),m_direction(direction),m_fieldLeft(type+1)
 {
   m_position.first = 0;
   m_position.second = 0;
@@ -25,12 +25,12 @@ Position& Ship::getPosition()
   return m_position;
 }
 
-Ship::ShipType Ship::getType()
+ShipType Ship::getType()
 {
   return m_type;
 }
 
-Ship::Direction Ship::getDirection()
+Direction Ship::getDirection()
 {
   return m_direction;
 }

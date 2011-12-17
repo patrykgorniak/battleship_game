@@ -5,6 +5,7 @@
 #include <GameBase.h>
 #include <QtDeclarative/QDeclarativeItem>
 #include <QDebug>
+#include "ShotGenerator.h"
 
 class GameManager : public QDeclarativeItem
 {
@@ -32,6 +33,7 @@ class GameManager : public QDeclarativeItem
         QList<int> readBoard();
         Base::GameBoard *m_board;
         Base::GameBoard *m_enemyBoard;
+        Base::ShotGenerator *m_shotGenerator;
 
     signals:
         void dataChanged();

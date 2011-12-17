@@ -9,11 +9,11 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     m_board->setObjectName("board");
     qDebug()<<"Your board: \n"<<m_board->readBoard();
 
-    m_enemyBoard = new Base::GameBoard(NULL,10,true);
-    m_enemyBoard->useHistogram(true);
+    m_enemyBoard = new Base::GameBoard(NULL,10);
     m_enemyBoard->setObjectName("enemyBoard");
     qDebug()<<"Enemy board: \n"<<m_enemyBoard->readBoard();
     m_enemyBoard->generateBoard();
+    m_shotGenerator = new Base::ShotGenerator(m_enemyBoard->readEnemyBoard());
     connect(m_board,SIGNAL(boardChanged()),this,SIGNAL(dataChanged()));
     connect(m_enemyBoard,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
     connect(m_board,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
@@ -39,6 +39,9 @@ void GameManager::restartGame()
     m_enemyBoard->clearBoard();
     m_enemyBoard->initializeGame();
     m_enemyBoard->generateBoard();
+
+    m_shotGenerator->clearGenerator();
+    m_shotGenerator->initializeGenerator();
 }
 
 QList<int> GameManager::readBoard()
@@ -50,12 +53,14 @@ void GameManager::shot(int fieldNb)
 {
 //    qDebug()<<"I catched shot in plugin at field nb: "<<fieldNb;
 //    qDebug()<<m_enemyBoard->readBoard();
-    Base::GameBoard::MoveResult res = m_enemyBoard->makeShot(fieldNb);
-    if(res!=Base::GameBoard::INCORRECT_COORDINATES)
+    Base::MoveResult res = m_enemyBoard->makeShot(fieldNb);
+    if(res!=Base::INCORRECT_COORDINATES)
     {
         m_board->savePlayerMoveResult(fieldNb,res);
-        int randShot = m_enemyBoard->getRandomShot();
-        m_enemyBoard->savePlayerMoveResult(randShot,m_board->makeShot(randShot));
+        int randShot = m_shotGenerator->getNextShot();
+        Base::MoveResult result = m_board->makeShot(randShot);
+        m_enemyBoard->savePlayerMoveResult(randShot,result);
+        m_shotGenerator->saveShotResult(randShot,result);
     }
     else
     {
