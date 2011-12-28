@@ -46,6 +46,7 @@ class GameManager : public QDeclarativeItem
         void dataChanged();
         void shipDestroyed();
         void gameFinished();
+        void restart();
         
     public slots:
         void shot(int);

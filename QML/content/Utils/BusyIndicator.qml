@@ -3,9 +3,9 @@ import QtDesktop 0.1
 
 Item {
     id: root
+    visible: false
     anchors.fill: parent
-
-    property bool on: true
+    property bool running: false
 
     Rectangle {
         id: background
@@ -21,18 +21,21 @@ Item {
         anchors.centerIn: parent
 
         NumberAnimation on rotation {
-            running: root.on ; from: 0; to: 360; loops: Animation.Infinite; duration: 1500
+            running: root.running ; from: 0; to: 360; loops: Animation.Infinite; duration: 1500
         }
     }
 
     Label {
         text: "Proszę czekać ..."
-        anchors { top: spiner.bottom; topMargin: 15 }
-
-        font.pixelSize: 22
         color: "white"
-        anchors.horizontalCenter: spiner.horizontalCenter
+        anchors { top: spiner.bottom; topMargin: 15; horizontalCenter: spiner.horizontalCenter }
+        font.pixelSize: 22
     }
 
-    onOnChanged: root.visible = root.on
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {}
+    }
+
+    onRunningChanged: root.visible = root.running
 }

@@ -3,7 +3,7 @@ import QtDesktop 0.1
 import "../Ships"
 
 Rectangle {
-    id: panel
+    id: root
     height: mainWindow.height
     color: "transparent"
     radius: 10
@@ -15,7 +15,7 @@ Rectangle {
         State {
             name: "hidden"
             when: !parent.shown
-            AnchorChanges { target: panel; anchors.left: parent.right}
+            AnchorChanges { target: root; anchors.left: parent.right}
         }
     ]
 
@@ -24,7 +24,7 @@ Rectangle {
         anchors.fill: parent
         color: "black"
         opacity: 0.2
-        radius: panel.radius
+        radius: root.radius
     }
 
     Text {
@@ -73,13 +73,15 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 5
 
+
+
         Button {
             id: add
             text: "Dodaj statek"
-            width: panel.width / 2 - 25
+            width: root.width / 2 - 25
             height: 50
             enabled: listView.model.get(listView.currentIndex).quantity > 0
-            onClicked: {
+            onClicked: {        // TODO::PG: zmniejszanie ilości statków opo poprawnym dodaniu na board a nie na odwrot!
                 listView.model.get(listView.currentIndex).quantity -= 1
                 manager.addShip(listView.model.get(listView.currentIndex).boatSize);
             }
@@ -87,7 +89,7 @@ Rectangle {
         Button {
             id: del
             text: "Usuń statek"
-            width: panel.width / 2 - 25
+            width: root.width / 2 - 25
             //            enabled: listView.model.get(listView.currentIndex).quantity < listView.model.get(listView.currentIndex).max
             height: 50
             onClicked: {
@@ -120,10 +122,10 @@ Rectangle {
             id: shipNB
             width: 100
             text: _shipNB==0 ? "" : _shipNB
-            validator: IntValidator { }
+//            validator: IntValidator { }
 
             onTextChanged: {
-                panel.checkMove()
+                root.checkMove()
             }
         }
     }
@@ -153,7 +155,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,-1,0);
-                    panel.checkMove()
+                    root.checkMove()
                     //                    topIMG.enabled = manager.validateShipPosition(shipNB.text,-1,0);
                 }
             }
@@ -176,7 +178,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,0,1);
-                    panel.checkMove()
+                    root.checkMove()
                     //                    rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1);
                 }
             }
@@ -199,7 +201,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,1,0);
-                    panel.checkMove()
+                    root.checkMove()
                     //                    bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0);
                 }
             }
@@ -222,7 +224,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.moveShip(shipNB.text,0,-1);
-                    panel.checkMove()
+                    root.checkMove()
                     //                    leftIMG.enabled = manager.validateShipPosition(shipNB.text,0,-1)
                 }
             }
@@ -246,7 +248,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.rotateShip(shipNB.text,false)
-                    panel.checkMove()
+                    root.checkMove()
                 }
             }
         }
@@ -269,21 +271,26 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     manager.rotateShip(shipNB.text,true)
-                    panel.checkMove()
+                    root.checkMove()
                 }
             }
         }
     }
 
-
-    // TODO::PG:Add rotation logic
-    function checkMove()
-    {
+    function checkMove() {
         topIMG.enabled = manager.validateShipPosition(shipNB.text,-1,0)
         rightIMG.enabled = manager.validateShipPosition(shipNB.text,0,1)
         bottomIMG.enabled = manager.validateShipPosition(shipNB.text,1,0)
         leftIMG.enabled =  manager.validateShipPosition(shipNB.text,0,-1)
         rightRotateIMG.enabled = manager.validateRotation(shipNB.text,true)
         leftRotateIMG.enabled = manager.validateRotation(shipNB.text,false)
+    }
+
+    function handleRestart() {
+        shipsModel.reset();
+    }
+
+    Component.onCompleted: {
+        manager.restart.connect(root.handleRestart)
     }
 }

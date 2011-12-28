@@ -23,9 +23,8 @@ Rectangle {
             width: 130
             height: 50
             onClicked: {
-                root.visible = false;
                 manager.generateBoard();
-                _game.visible = true
+                mainWindow.state = "Game"
             }
         }
 
@@ -34,8 +33,7 @@ Rectangle {
             width: 130
             height: 50
             onClicked: {
-                root.visible = false;
-                _bConfigurator.visible = true;
+                mainWindow.state="Configuration"
             }
         }
     }

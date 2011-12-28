@@ -7,24 +7,25 @@ Item {
     id: root
     anchors.fill: parent
     property int _gameBoardLevel
-    property GameManager m_manager: null
-    property bool active: true
+    property GameManager _manager: null
+    property bool interactive: true
     signal restart
 
     GameBoard {
         width: _gameBoardLevel
         anchors.left:  parent.left
         anchors.verticalCenter: parent.verticalCenter
-        model: m_manager.board
+        model: _manager.board
         interactionEnabled: false
-        enabled: root.active
+        enabled: root.interactive
     }
+
     GameBoard {
         width: _gameBoardLevel
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        model: m_manager.boardEnemy
-        enabled: root.active
+        model: _manager.boardEnemy
+        enabled: root.interactive
     }
 
     Warning {
@@ -41,6 +42,6 @@ Item {
     //Functions
     function gameFinished() {
         warning.visible = true
-        root.active = false
+        root.interactive = false
     }
 }

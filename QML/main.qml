@@ -9,6 +9,7 @@ Rectangle {
     width: 900
     height: 800
     property int gameBoardLevel: width > height ? width/2 : height/2
+    state: "Introduction"
 
     Image {
         id: img
@@ -16,50 +17,76 @@ Rectangle {
         anchors.fill: parent
     }
 
+    BusyIndicator {
+        id: indicator
+        running: false
+    }
+
     GameManager {
         id: manager
     }
 
     Game {
-        id: game
-        _gameBoardLevel: parent.gameBoardLevel
-        m_manager: manager
+        id: gameScr
         visible: false
+        _gameBoardLevel: parent.gameBoardLevel
+        _manager: manager
 
         onRestart: {
             manager.restartGame()
-            configurator.visible = false;
-            game.visible = false
-            demo.visible = true
-            game.active = true
         }
     }
 
     BoardConfigurator {
-        id: configurator
+        id: configuratorScr
         visible: false
         _manager: manager
 
         onCloseAndStartGame: {
-            configurator.visible = false;
-            game.visible = true
+            mainWindow.state="Game"
         }
     }
 
     DemoScreen {
-        id: demo
-        _game: game
-        _bConfigurator: configurator
+        id: introductionScr
+        _game: gameScr
+        _bConfigurator: configuratorScr
     }
 
-    BusyIndicator {
-        id: indicator
-        on: false
+
+
+    states: [
+        State {
+            name: "Game"
+            PropertyChanges { target: introductionScr; visible: false; }
+            PropertyChanges { target: gameScr; visible: true; }
+        },
+        State {
+            name: "Configuration"
+            PropertyChanges { target: introductionScr; visible: false; }
+            PropertyChanges { target: configuratorScr; visible: true; }
+        },
+        State {
+            name: "Introduction"
+            PropertyChanges { target: introductionScr; visible: true; }
+            PropertyChanges { target: configuratorScr; visible: false; }
+            PropertyChanges { target: gameScr; visible: false; }
+        }
+    ]
+
+
+    function handleRestart() {
+//        configurator.visible = false;
+//        gameScr.visible = false
+//        introductionScr.visible = true
+        mainWindow.state="Introduction"
+        gameScr.interactive = true
     }
 
     function shipDestroyed() {
         console.log("destroyed")
     }
+
     function gameFinished() {
         console.log("gameFinished")
     }
@@ -67,5 +94,6 @@ Rectangle {
     Component.onCompleted: {
         manager.shipDestroyed.connect(mainWindow.shipDestroyed)
         manager.gameFinished.connect(mainWindow.gameFinished)
+        manager.restart.connect(mainWindow.handleRestart)
     }
 }

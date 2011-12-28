@@ -48,6 +48,7 @@ void GameManager::restartGame()
     m_boardGenerator->clear();
     m_boardGenerator->initialize();
     dataChanged();
+    restart();
 }
 
 QList<int> GameManager::readBoard()
