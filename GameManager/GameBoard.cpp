@@ -18,6 +18,10 @@ GameBoard::GameBoard(QObject* obj,int size) : QObject(obj),m_size(size),curr_id(
     initializeGame();
 }
 
+//GameBoard::GameBoard(const GameBoard &board)
+//{
+//    this = board;
+//}
 
 GameBoard::~GameBoard()
 {
@@ -522,4 +526,13 @@ void GameBoard::initializeGame()
     m_shipTypeCount.insert(1,3);
     m_shipTypeCount.insert(0,4);
 
+}
+
+void GameBoard::addShips(QList<Ship> list)
+{
+    while(list.size()>0)
+    {
+        Ship ship = list.takeFirst();
+        qDebug() << "Position: "<<ship.getPosition()<<" Returned: "<<addShip(ship)<<endl;
+    }
 }

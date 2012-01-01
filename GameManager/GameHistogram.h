@@ -22,6 +22,8 @@ class GameHistogram {
         void setHistogram(int pos,int val);
         void modifyHistogram(int pos);
         void checkValues();
+        QHash<int,int> getHistogramHashTable(){return histogram;}
+        QString getFileName(){return file_name;}
         void clearHistogram();
         QList<int> generateSortedList();
 

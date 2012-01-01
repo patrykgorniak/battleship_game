@@ -41,6 +41,7 @@ int GameHistogram::getHistogram(int pos)
 void GameHistogram::setHistogram(int pos, int val)
 {
     if(val>15) val=15;
+    if(val<0) val = 0;
     histogram.insert(pos,val);
 }
 

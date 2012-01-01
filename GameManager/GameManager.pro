@@ -14,7 +14,8 @@ HEADERS+= $$PWD/GameBase.h \
     $$PWD/GameManager.h \
     $$PWD/GameHistogram.h \
     $$PWD/ShotGenerator.h \
-    $$PWD/Common.h
+    $$PWD/Common.h \
+    BoardGenerator.h
 
 SOURCES+= $$PWD/GameBoard.cpp \
     $$PWD/Ship.cpp \
@@ -22,4 +23,7 @@ SOURCES+= $$PWD/GameBoard.cpp \
     $$PWD/GameManager.cpp \
     $$PWD/GameHistogram.cpp \
     $$PWD/ShotGenerator.cpp \
-    $$PWD/Common.cpp
+    $$PWD/Common.cpp \
+    BoardGenerator.cpp
+
+
