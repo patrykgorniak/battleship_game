@@ -14,6 +14,7 @@ GameManager::GameManager(QDeclarativeItem *parent) :
     qDebug()<<"Enemy board: \n"<<m_enemyBoard->readBoard();
     m_enemyBoard->generateBoard();
     m_shotGenerator = new Base::ShotGenerator(m_enemyBoard->readEnemyBoard());
+    m_boardGenerator = new Base::BoardGenerator(m_enemyBoard->readBoard(),m_enemyBoard->getSize());
     connect(m_board,SIGNAL(boardChanged()),this,SIGNAL(dataChanged()));
     connect(m_enemyBoard,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
     connect(m_board,SIGNAL(shipDestroyed()),this,SIGNAL(shipDestroyed()));
@@ -38,10 +39,14 @@ void GameManager::restartGame()
 
     m_enemyBoard->clearBoard();
     m_enemyBoard->initializeGame();
-    m_enemyBoard->generateBoard();
+    m_enemyBoard->addShips(m_boardGenerator->generateBoard());
+    m_enemyBoard->print(cout);
 
     m_shotGenerator->clearGenerator();
     m_shotGenerator->initializeGenerator();
+
+    m_boardGenerator->clear();
+    m_boardGenerator->initialize();
 }
 
 QList<int> GameManager::readBoard()

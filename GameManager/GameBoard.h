@@ -25,6 +25,7 @@ namespace Base
             QList<int>& readEnemyBoard() { return m_boardEnemy; }
 
             GameBoard(QObject* obj = 0,int size=10);
+//            GameBoard(GameBoard& boar);
             virtual ~GameBoard();
             int getSize();
             MoveResult validateMove(int x,int y);
@@ -33,8 +34,9 @@ namespace Base
             void print(std::ostream& stream);
             int addShip(Ship newShip);
             int addShip(int sails);
-            int removeShipById(int id,bool updateBoard = true);
-            bool validatePosition(Position p);
+            void addShips(QList<Ship> list);
+            int removeShipById(int id,bool updateBoard = true); // TODO: CORRECT BUGS
+            bool validatePosition(Position p); //
             MoveResult makeShot(int field);
             void generateBoard();
             bool moveShip(int id,int x,int y);

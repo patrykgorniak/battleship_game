@@ -6,6 +6,7 @@
 #include <QtDeclarative/QDeclarativeItem>
 #include <QDebug>
 #include "ShotGenerator.h"
+#include "BoardGenerator.h"
 
 
 //!  Klasa GameManager.
@@ -39,6 +40,7 @@ class GameManager : public QDeclarativeItem
         Base::GameBoard *m_board;
         Base::GameBoard *m_enemyBoard;
         Base::ShotGenerator *m_shotGenerator;
+        Base::BoardGenerator* m_boardGenerator;
 
     signals:
         void dataChanged();

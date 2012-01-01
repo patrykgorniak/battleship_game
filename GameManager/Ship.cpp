@@ -3,10 +3,8 @@
 
 using namespace Base;
 
-Ship::Ship(ShipType type, Direction direction):m_type(type),m_direction(direction),m_fieldLeft(type+1)
+Ship::Ship(ShipType type, Direction direction,Position pos):m_type(type),m_direction(direction),m_fieldLeft(type+1),m_position(pos)
 {
-  m_position.first = 0;
-  m_position.second = 0;
 }
 
 Ship::~Ship()
