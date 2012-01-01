@@ -10,6 +10,10 @@
 
 using namespace std;
 
+//!  Klasa GameHistogram.
+/*!
+  Odpowiedzialna za obsługę histogramów.
+*/
 class GameHistogram {
 
     public:

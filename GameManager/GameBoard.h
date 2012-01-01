@@ -7,8 +7,13 @@
 #include "Ship.h"
 #include "GameHistogram.h"
 
+
 namespace Base
 {
+//!  Klasa GameBoard.
+/*!
+  Obsługa pola gry
+*/
     class GameBoard: public QObject
     {
         Q_OBJECT

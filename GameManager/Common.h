@@ -2,6 +2,9 @@
 #define COMMON_H
 #include <QPair>
 
+//! Namespace Base.
+/*!
+*/
 namespace Base
 {
     enum MoveResult

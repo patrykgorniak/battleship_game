@@ -7,6 +7,11 @@
 #include <QDebug>
 #include "ShotGenerator.h"
 
+
+//!  Klasa GameManager.
+/*!
+  Obsługa samej rozgrywki
+*/
 class GameManager : public QDeclarativeItem
 {
         Q_OBJECT

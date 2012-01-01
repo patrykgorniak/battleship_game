@@ -4,6 +4,10 @@
 #include "Common.h"
 
 namespace Base {
+//!  Klasa Ship.
+/*!
+  Obsługa obiektów statków
+*/
   class Ship
   {
     public:

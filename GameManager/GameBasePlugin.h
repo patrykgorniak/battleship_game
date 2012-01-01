@@ -3,6 +3,11 @@
 
 #include <QDeclarativeExtensionPlugin>
 
+
+//!  Klasa GameBasePlugin.
+/*!
+  Wtyczka dla interface'u.
+*/
 class GameBasePlugin : public QDeclarativeExtensionPlugin
 {
         Q_OBJECT

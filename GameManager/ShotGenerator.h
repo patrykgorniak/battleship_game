@@ -3,10 +3,13 @@
 
 #include "Common.h"
 
-
 class GameHistogram;
 namespace Base
 {
+//!  Klasa ShotGenerator.
+/*!
+  Obsługa procedury strzelania
+*/
     class ShotGenerator
     {
     public:
