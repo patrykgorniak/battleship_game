@@ -183,7 +183,7 @@ void BoardGenerator::updateHistogram(QList<int> &board)
         }
         else if(board.at(i) == 0)
         {
-            m_histogram.setHistogram(i,m_histogram.getHistogram(i)+random()%4+3);
+            m_histogram.setHistogram(i,m_histogram.getHistogram(i)+random()%4+1);
             // add 3
         }
         else if(board.at(i) == -SHIP_HIT)

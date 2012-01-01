@@ -6,7 +6,10 @@
 
 namespace Base
 {
-
+//!  Klasa BoardGenerator.
+/*!
+  Generowanie pola gry.
+*/
     class BoardGenerator
     {
     public:
