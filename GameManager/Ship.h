@@ -7,7 +7,7 @@ namespace Base {
   class Ship
   {
     public:
-      Ship(ShipType type = PATROL_BOAT,Direction direction = UP);
+      Ship(ShipType type = PATROL_BOAT,Direction direction = UP,Position pos = qMakePair(0,0));
       void setPosition(int x,int y);
       Position& getPosition();
       ShipType getType();
