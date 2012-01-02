@@ -203,18 +203,21 @@ void GameBoard::generateBoard()
     QHashIterator<int,int> it(m_shipTypeCount);
 
     QList<int> keys = m_shipTypeCount.keys();
+    qSort(keys);
+    qDebug()<<keys;
+
 
     for(int i = keys.size() - 1;i >=0 ;i--)
     {
         bool validCoords = true;
-        int value = m_shipTypeCount.take(i);
+        int value = m_shipTypeCount.take(keys.at(i));
         cout<<"Ship type "<<i+1<<" type count: "<<value<<endl;
-        for(int i = 0; i < value; i++)
+        for(int j = 0; j < value; j++)
         {
             do
             {
                 cout<<"Checking coords ";
-                ShipType type = (ShipType)(i);
+                ShipType type = (ShipType)keys.at(i);
                 Direction direction = (Direction)(random()%4);
                 Ship ship(type,direction);
                 int rand = random() % m_positionsGenerator.size();
@@ -224,35 +227,15 @@ void GameBoard::generateBoard()
                 //                cout<<x<<" "<<y<<endl;
                 ship.setPosition(x,y);
                 qDebug()<<"Entering direction loop. LEFT fields "<<m_positionsGenerator.size();
-                for(int i=0;i<4;i++)
+                for(int k=0;k<4;k++)
                 {
-                    ship.setDirection((Direction)((int)direction+i >= 4 ? (direction+i)-4 : direction+i ));
+                    ship.setDirection((Direction)((int)direction+k >= 4 ? (direction+k)-4 : direction+k ));
                     qDebug()<<"Ship direction "<<ship.getDirection();
                     validCoords = addShip(ship);
                     if(validCoords)
                     {
                         // remove values from generator
-                        if(ship.getDirection() == DOWN || ship.getDirection() == UP)
-                        {
-                            for(int i=0;i<m_size;i++)
-                            {
-                                if(ship.getShipId() == fieldAt(i,ship.getPosition().second))
-                                {
-                                    //                                    qDebug()<<"Removing "<<i<< " "<<ship.
-                                    m_positionsGenerator.removeOne(i*m_size + ship.getPosition().second);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for(int i=0;i<m_size;i++)
-                            {
-                                if(ship.getShipId() == fieldAt(ship.getPosition().first,i))
-                                {
-                                    m_positionsGenerator.removeOne(ship.getPosition().first*m_size + i);
-                                }
-                            }
-                        }
+                        removeSurroundingFields(ship.getPosition(),ship.getDirection(),ship.getType());
                         break;
                     }
                 }
@@ -507,10 +490,11 @@ void GameBoard::initializeGame()
         for(int j=0;j<m_size;j++)
             m_boardEnemy.append(0);
 
-    m_shipTypeCount.insert(3,1);
-    m_shipTypeCount.insert(2,2);
     m_shipTypeCount.insert(1,3);
     m_shipTypeCount.insert(0,4);
+    m_shipTypeCount.insert(2,2);
+    m_shipTypeCount.insert(3,1);
+
 
     for(int i=1;i<=10;i++)
         m_availibleIDs.append(i);
@@ -554,4 +538,52 @@ int GameBoard::unmarkShip(int id)
         return it.value().getType() + 1;
     }
     else return 0;
+}
+
+void GameBoard::removeSurroundingFields(Base::Position pos, Direction dir, int sails)
+{
+    Position start;
+    Position end;
+    if(dir == UP)
+    {
+        dir = DOWN;
+        pos.first-=sails;
+        if(pos.first < 0 )pos.first = 0;
+    }
+    if(dir == LEFT)
+    {
+        pos.second -=sails;
+        dir = RIGHT;
+        if(pos.second < 0)pos.second =0;
+    }
+    if(dir == DOWN)
+    {
+        for(int i=pos.first - 1;i<=pos.first+sails+1;i++)
+        {
+            for(int j=pos.second - 1;j<=pos.second+1;j++)
+            {
+                Position temp = qMakePair(i,j);
+                if(validatePosition(temp))
+                {
+                    qDebug()<<"removing ["<<i<<","<<j<<"]";
+                    m_positionsGenerator.removeOne(i*m_size+j);
+                }
+            }
+        }
+    }
+    else // RIGHT
+    {
+        for(int i=pos.first - 1;i<=pos.first+1;i++)
+        {
+            for(int j=pos.second - 1;j<=pos.second+sails+1;j++)
+            {
+                Position temp = qMakePair(i,j);
+                if(validatePosition(temp))
+                {
+                    qDebug()<<"removing ["<<i<<","<<j<<"]";
+                    m_positionsGenerator.removeOne(i*m_size+j);
+                }
+            }
+        }
+    }
 }

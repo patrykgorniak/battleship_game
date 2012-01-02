@@ -29,6 +29,7 @@ namespace Base
             virtual ~GameBoard();
             int getSize();
             MoveResult validateMove(int x,int y);
+            void removeSurroundingFields(Base::Position pos, Direction dir, int sails);
             void savePlayerMoveResult(int x,int y,MoveResult result);
             void savePlayerMoveResult(int field,MoveResult result);
             void print(std::ostream& stream);
