@@ -34,6 +34,8 @@ QList<int> GameManager::readEnemyBoard()
 
 void GameManager::restartGame()
 {
+    m_boardGenerator->clear();
+    m_boardGenerator->initialize();
     m_board->clearBoard();
     m_board->initializeGame();
 
@@ -45,8 +47,6 @@ void GameManager::restartGame()
     m_shotGenerator->clearGenerator();
     m_shotGenerator->initializeGenerator();
 
-    m_boardGenerator->clear();
-    m_boardGenerator->initialize();
     dataChanged();
     restart();
 }

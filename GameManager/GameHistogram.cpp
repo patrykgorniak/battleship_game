@@ -1,8 +1,5 @@
 #include "GameHistogram.h"
 
-//!  Domyślny konstruktor klasy GameHistrogram
-/*!
-*/
 GameHistogram::GameHistogram()
 {
     board_size=100;
@@ -13,13 +10,6 @@ GameHistogram::GameHistogram()
     file_name="histogram.txt";
 }
 
-//! Konstruktor parametrowy klasy GameHistrogram
-/*!
-      \param f_name nazwa pliku z histogramem
-      \param b_size rozmiar planszy gry
-      \return The test results
-      \sa GameHistogram(), ~GameHistogram()
-*/
 GameHistogram::GameHistogram(QString f_name, int b_size)
 {
     board_size = b_size;
@@ -29,51 +19,31 @@ GameHistogram::GameHistogram(QString f_name, int b_size)
     }
     file_name=f_name;
 }
-//!  Destruktor klasy GameHistrogram
-/*!
-*/
+
 GameHistogram::~GameHistogram()
 {
     this->clearHistogram();
 }
-//!  Funkcja usuwająca histogram z pamięci
-/*!
-     \sa ~GameHistogram()
-*/
+
 void GameHistogram::clearHistogram()
 {
     histogram.clear();
     o_histogram.clear();
     hist_sort.clear();
 }
-//! Dostęp do wartości histogramu
-/*!
-      \param pos pozycja w histogramie
-      \return wartość histogramu na określonej pozycji
-      \sa setHistogram()
-*/
+
 int GameHistogram::getHistogram(int pos)
 {
     return histogram.value(pos);
 }
-//! Dostęp do wartości histogramu
-/*!
-      \param pos pozycja w histogramie
-      \param val nowa wartość
-      \sa getHistogram()
-*/
+
 void GameHistogram::setHistogram(int pos, int val)
 {
     if(val>15) val=15;
     if(val<0) val = 0;
     histogram.insert(pos,val);
 }
-//! Modyfikacja wag w histogramie
-/*!
-      Po trafieniu wartość danego pola zwiększana jest o 3. Wartość max. 15
-      \param pos pozycja w histogramie
-      \sa checkValues()
-*/
+
 void GameHistogram::modifyHistogram(int pos)
 {
     int val = histogram.value(pos);
@@ -82,11 +52,7 @@ void GameHistogram::modifyHistogram(int pos)
     }
     histogram.insert(pos,(val+3));
 }
-//! Sprawdzanie zmian w histogramie
-/*!
-      Po zakończeniu gry na podstawie kopii histogramu sprawdzane są zmiany w celu obniżenia wagi pól nietrafionych.
-      \sa modifyHistogram()
-*/
+
 void GameHistogram::checkValues()
 {
     int new_v,prev_v=0;
@@ -108,11 +74,7 @@ void GameHistogram::checkValues()
         }
     }
 }
-//! Wczytanie histogramu z pliku
-/*!
-      Wczytanie danych z pliku oraz utworzenie kopii histogramu w celu późniejszego śledzenia zmian
-      \sa saveHistogram(), checkValues()
-*/
+
 void GameHistogram::readHistogram()
 {
     int counter = 0;
@@ -136,10 +98,7 @@ void GameHistogram::readHistogram()
         }
      file.close();
 }
-//! Zapisanie histogramu do pliku
-/*!
-    \sa readHistogram(), clearHistogram()
-*/
+
 void GameHistogram::saveHistogram()
 {
     this->checkValues();
@@ -157,10 +116,7 @@ void GameHistogram::saveHistogram()
     file.close();
 
 }
-//! Utworzenie listy wg rosnących wag pól
-/*!
-    /return lista uporządkowana wg rosnących wag pól
-*/
+
 QList<int> GameHistogram::generateSortedList()
 {
     QList<int> sPos;
