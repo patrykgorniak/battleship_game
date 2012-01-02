@@ -176,19 +176,19 @@ void BoardGenerator::updateHistogram(QList<int> &board)
 {
     for(int i=0;i<board.size();i++)
     {
-        if(board.at(i) == -MISSED)
+/*        if(board.at(i) == -MISSED)
         {
             // add 1
-            m_histogram.setHistogram(i,m_histogram.getHistogram(i)+1);
+            m_histogram.setHistogram(i,m_histogram.getHistogram(i));
         }
-        else if(board.at(i) == 0)
+        else */if(board.at(i) == 0)
         {
-            m_histogram.setHistogram(i,m_histogram.getHistogram(i)+random()%4+1);
+            m_histogram.setHistogram(i,m_histogram.getHistogram(i)+3);
             // add 3
         }
-        else if(board.at(i) == -SHIP_HIT)
+        else if(board.at(i) == -SHIP_HIT && board.at(i) == -SHIP_DESTROYED && board.at(i) == -ALL_SHIPS_DESTROYED)
         {
-            m_histogram.setHistogram(i,m_histogram.getHistogram(i)-random()%7);
+            m_histogram.setHistogram(i,m_histogram.getHistogram(i)-2);
             // sub ??
         }
     }
