@@ -52,7 +52,7 @@ Item {
         Rectangle {
             id: background
             radius: 5
-            color: "black"
+            color: "white"
             opacity: 0.5
             height: 50
             width: 200
