@@ -5,6 +5,6 @@ ListModel {
 
     ListElement { name: "Patrol boat"; boatSize: 1; quantity: 4; max: 4 }
     ListElement { name: "Submarine"; boatSize: 2; quantity: 3; max: 3 }
-    ListElement { name: "Destroyer"; boatSize: 3; quantity: 1; max: 1 }
+    ListElement { name: "Destroyer"; boatSize: 3; quantity: 2; max: 2 }
     ListElement { name: "Battleship"; boatSize: 4; quantity: 1; max: 1 }
 }

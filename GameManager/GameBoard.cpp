@@ -65,6 +65,7 @@ MoveResult GameBoard::validateMove(int x, int y)
 	if(isDestroyed)
 	{
 	  m_ships.erase(it);
+          qDebug()<<"Validate move. Ship Count: "<<m_ships.size();
 	  if(m_ships.isEmpty())
 
             result = ALL_SHIPS_DESTROYED;
@@ -116,18 +117,20 @@ void GameBoard::print(ostream& stream)
 
 int GameBoard::addShip(Ship newShip)
 {
-  cout<< "AddShip func" <<endl;
   curr_id++;
-  newShip.setShipId(curr_id);
+  newShip.setShipId(m_availibleIDs.takeFirst());
   bool ret = markShipOnBoard(newShip);
   if(ret)
   {
-    m_ships.insert(m_ships.count()+1,newShip);
+    m_ships.insert(newShip.getShipId(),newShip);
   }
   else
   {
-      curr_id--;
+      m_availibleIDs.push_front(newShip.getShipId());
+      qDebug()<<"ID's "<<m_availibleIDs;
   }
+  cout<< "AddShip func . Count m_ships "<<m_ships.size()<<" Return code "<<ret <<endl;
+   print(cout);
   if(ret == false)
       return 0;
   else
@@ -323,34 +326,16 @@ int GameBoard::addShip(int sails)
 
 int GameBoard::removeShipById(int id,bool updateBoard)
 {
-
-    QHash<int,Ship>::iterator it = m_ships.find(id);
-//    cout << "Key "<<it.key();
-    if(it!=m_ships.end() && it.key() == id)
+    int shipType = 0;
+    if((shipType = unmarkShip(id)) > 0)
     {
-        Position pos = it.value().getPosition();
-        Direction dir = it.value().getDirection();
-//        cout << "Ship position "<<pos.first<< " "<<pos.second<<endl;
-        if(dir == UP || dir == DOWN)
+        if(updateBoard)
         {
-            for(int i=0;i<m_size;i++)
-            {
-                if(fieldAt(i,pos.second) == id)
-                {
-                    fieldAt(i,pos.second) = 0;
-                }
-            }
+            boardChanged();
+            m_availibleIDs.push_front(id);
         }
-        else
-        {
-            for(int i=0;i<m_size;i++)
-            {
-                if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
-            }
-        }
-        if(updateBoard)boardChanged();
-        return it.value().getType()+1;
         m_ships.remove(id);
+        return shipType;
     }
     else
         return 0;
@@ -430,12 +415,13 @@ bool GameBoard::validateShipPosition(int id, int x, int y)
     while (it != m_ships.end() && it.key() == id) {
         Ship ship = it.value();
         Position pos = ship.getPosition();
-        removeShipById(id,false);
+        qDebug()<<m_ships.count();
+        unmarkShip(id);
         ship.setPosition(pos.first+x,pos.second+y);
         ret = validateShipPosition(ship,coords);
         ship.setPosition(pos.first,pos.second);
         markShipOnBoard(ship);
-        m_ships.insert(id,ship);
+        qDebug()<<m_ships.count();
         it++;
     }
     return ret;
@@ -487,7 +473,7 @@ bool GameBoard::validateRotation(int id, bool direction)
         int directionChanged = dir + (direction ? 1: -1);
         if(directionChanged < 0) directionChanged += 4;
         else if(directionChanged >= 4) directionChanged-=4;
-        removeShipById(id,false);
+        unmarkShip(id);
         Position temp = Position(pos.first,pos.second);
         ship.setDirection((Direction)directionChanged);
 //        qDebug()<<"Ship direction "<<ship.getDirection();
@@ -496,7 +482,6 @@ bool GameBoard::validateRotation(int id, bool direction)
         ship.setPosition(pos.first,pos.second);
         ship.setDirection(dir);
         markShipOnBoard(ship);
-        m_ships.insert(id,ship);
         it++;
     }
     return ret;
@@ -508,6 +493,7 @@ void GameBoard::clearBoard()
     m_boardEnemy.clear();
     m_ships.clear();
     m_positionsGenerator.clear();
+    m_availibleIDs.clear();
     curr_id = 0;
 }
 
@@ -526,6 +512,8 @@ void GameBoard::initializeGame()
     m_shipTypeCount.insert(1,3);
     m_shipTypeCount.insert(0,4);
 
+    for(int i=1;i<=10;i++)
+        m_availibleIDs.append(i);
 }
 
 void GameBoard::addShips(QList<Ship> list)
@@ -535,4 +523,35 @@ void GameBoard::addShips(QList<Ship> list)
         Ship ship = list.takeFirst();
         qDebug() << "Position: "<<ship.getPosition()<<" Returned: "<<addShip(ship)<<endl;
     }
+}
+
+int GameBoard::unmarkShip(int id)
+{
+    QHash<int,Ship>::iterator it = m_ships.find(id);
+//    cout << "Key "<<it.key();
+    if(it!=m_ships.end() && it.key() == id)
+    {
+        Position pos = it.value().getPosition();
+        Direction dir = it.value().getDirection();
+//        cout << "Ship position "<<pos.first<< " "<<pos.second<<endl;
+        if(dir == UP || dir == DOWN)
+        {
+            for(int i=0;i<m_size;i++)
+            {
+                if(fieldAt(i,pos.second) == id)
+                {
+                    fieldAt(i,pos.second) = 0;
+                }
+            }
+        }
+        else
+        {
+            for(int i=0;i<m_size;i++)
+            {
+                if(fieldAt(pos.first,i) == id)fieldAt(pos.first,i) = 0;
+            }
+        }
+        return it.value().getType() + 1;
+    }
+    else return 0;
 }

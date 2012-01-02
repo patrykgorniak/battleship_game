@@ -47,6 +47,7 @@ namespace Base
             bool validateShipPosition(int,int,int);
             void clearBoard();
             void initializeGame();
+            int unmarkShip(int id);
     signals:
             void boardChanged();
             void gameFinished();
@@ -57,6 +58,7 @@ namespace Base
             QList<int> m_board;
             QList<int> m_boardEnemy;
             QHash<int,Ship> m_ships;
+            QList<int> m_availibleIDs;
 
             int m_size;
 
