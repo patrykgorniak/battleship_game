@@ -176,12 +176,12 @@ void BoardGenerator::updateHistogram(QList<int> &board)
 {
     for(int i=0;i<board.size();i++)
     {
-/*        if(board.at(i) == -MISSED)
+        if(board.at(i) == -MISSED)
         {
             // add 1
-            m_histogram.setHistogram(i,m_histogram.getHistogram(i));
+            m_histogram.setHistogram(i,m_histogram.getHistogram(i) - 1);
         }
-        else */if(board.at(i) == 0)
+        else if(board.at(i) == 0)
         {
             m_histogram.setHistogram(i,m_histogram.getHistogram(i)+3);
             // add 3
