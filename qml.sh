@@ -1,2 +1,2 @@
 #!/bin/bash
-qmlviewer -I . QML/main.qml
+qmlviewer -qt4 -I . QML/main.qml

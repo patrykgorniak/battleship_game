@@ -1,6 +1,6 @@
 TARGET=GameManager
 TEMPLATE=lib
-QT += declarative
+QT+= declarative
 CONFIG += qt plugin
 
 
